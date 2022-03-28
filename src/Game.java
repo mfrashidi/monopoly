@@ -9,7 +9,8 @@ public class Game {
     Dice dice = new Dice();
 
     public Game(Vector<Player> players){
-        //TODO
+        this.players=players;
+        this.currentPLayer= players.get(0);
     }
 
     public void twiceRent (LandsWithRent land){
@@ -21,7 +22,11 @@ public class Game {
     }
 
     public void nextTurn(){
-        //TODO
+        for(int i=0;i<players.size();i++){
+            if (players.get(i).equals(currentPLayer)){
+                currentPLayer=players.get(i+1);
+            }
+        }
     }
 
     public void setCurrentPLayer(Player currentPLayer) {
@@ -38,7 +43,21 @@ public class Game {
     }
 
     public Cards giveCard(){
-        //TODO
+        int a = (int) (Math.random()*(7));
+        switch (a){
+            case 0: return Cards.PayTenDollarToEveryone;
+            case 1: return Cards.DollorGift;
+            case 2: return Cards.GoToJail;
+            case 3: return Cards.TenPercentPenalty;
+            case 4: return Cards.ThreePlaceGoForward;
+            case 5: return Cards.TicketToLeaveJail;
+            case 6: return Cards.TicketToNotPayTax;
+        }
         return null;
+    }
+
+    public static void main(String[] args) {
+        Vector<Player> vector = new Vector<>();
+        vector.add(null);
     }
 }
