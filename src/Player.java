@@ -2,17 +2,21 @@ import java.util.*;
 
 public class Player {
 
-    private int id, balance, currentPosition;
+    private int id, balance = 1500, currentPosition=1;
     private String name;
-    private boolean isTheirturn , isMoneyDeposited, isInJail;
+    private boolean isTheirturn= false , isMoneyDeposited=false, isInJail= false;
     private Vector<Lands> ownLands = new Vector<Lands>();
 
     public Player(int id, String name) {
-        //TODO
+        this.id = id;
+        this.name = name;
     }
 
     public void move(int diceRoll){
-        //TODO
+        currentPosition+=diceRoll;
+        if (currentPosition>24){
+            currentPosition-=24;
+        }
     }
 
     public boolean buyProperty(){
