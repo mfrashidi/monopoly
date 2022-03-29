@@ -13,6 +13,14 @@ public class Game {
         this.currentPLayer= players.get(0);
     }
 
+    public boolean payRent(){
+        LandsWithRent land = (LandsWithRent) (lands[currentPLayer.getCurrentPosition()-1]);
+        if (currentPLayer.pay(land.getRent())){
+            return true;
+        }
+        return false;
+    }
+
     public void twiceRent (LandsWithRent land){
         land.setRent(land.getRent()*2);
     }
