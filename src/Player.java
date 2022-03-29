@@ -7,6 +7,10 @@ public class Player {
     private boolean isTheirturn= false , isMoneyDeposited=false, isInJail= false;
     private Vector<Lands> ownLands = new Vector<Lands>();
 
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
     public Player(int id, String name) {
         this.id = id;
         this.name = name;
@@ -19,13 +23,21 @@ public class Player {
         }
     }
 
-    public boolean buyProperty(){
-        //TODO
+    public boolean buyProperty(Lands land){
+        if (land.getCost()<=this.balance){
+            land.setOwner(this);
+            balance-=land.getCost();
+            ownLands.add(land);
+            return true;
+        }
         return false;
     }
 
-    public boolean payRent(){
-        //TODO
+    public boolean pay(int cost){
+        if (this.balance>=cost){
+            this.balance-=cost;
+            return true;
+        }
         return false;
     }
 
