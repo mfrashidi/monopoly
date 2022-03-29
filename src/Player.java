@@ -11,6 +11,26 @@ public class Player {
         return currentPosition;
     }
 
+    public boolean build(EmptyLands land){
+        if (!(land instanceof EmptyLands) || land.structures.get(0).equals(Structures.Hotels)){
+            return false;
+        }
+        for(int i=0; i<ownLands.size();i++){
+            EmptyLands temp = (EmptyLands) ownLands.get(i);
+            if(temp.structures.size()!=land.structures.size()){
+                return false;
+            }
+        }
+        if(land.structures.size()<4 && !(land.structures.get(0).equals(Structures.Hotels))){
+            land.structures.add(Structures.Buildings);
+        }
+        if(land.structures.size()==4){
+            land.structures.clear();
+            land.structures.add(Structures.Hotels);
+        }
+        return true;
+    }
+
     public Player(int id, String name) {
         this.id = id;
         this.name = name;
