@@ -12,7 +12,7 @@ public class Player {
     }
 
     public boolean build(EmptyLands land){
-        if (!(land instanceof EmptyLands) || land.structures.get(0).equals(Structures.Hotels)){
+        if (land.structures.get(0).equals(Structures.Hotels)){
             return false;
         }
         for(int i=0; i<ownLands.size();i++){
