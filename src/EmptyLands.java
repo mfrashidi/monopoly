@@ -1,7 +1,7 @@
 import java.util.Vector;
 
 public class EmptyLands extends LandsWithRent {
-    private Vector<Structures> structures = new Vector<>();
+    public Vector<Structures> structures = new Vector<>();
     public EmptyLands(Player owner, Property type, Integer cost) {
         super(owner, type, cost);
     }
