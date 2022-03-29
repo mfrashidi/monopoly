@@ -10,10 +10,26 @@ public class Player {
     public int getCurrentPosition() {
         return currentPosition;
     }
-    
+
     public Player(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public int getTaxTicket() {
+        return taxTicket;
+    }
+
+    public void setTaxTicket(int taxTicket) {
+        this.taxTicket = taxTicket;
+    }
+
+    public int getJailTicket() {
+        return jailTicket;
+    }
+
+    public void setJailTicket(int jailTicket) {
+        this.jailTicket = jailTicket;
     }
 
     public void move(int diceRoll){
