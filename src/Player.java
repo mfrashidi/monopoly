@@ -22,9 +22,17 @@ public class Player {
             }
         }
         if(land.structures.size()<4 && !(land.structures.get(0).equals(Structures.Hotels))){
+            if(!(this.pay(150))){
+                return false;
+            }
+            land.setRent(land.getRent()+100);
             land.structures.add(Structures.Buildings);
         }
         if(land.structures.size()==4){
+            if(!(this.pay(100))){
+                return false;
+            }
+            land.setRent(land.getRent()+150);
             land.structures.clear();
             land.structures.add(Structures.Hotels);
         }
