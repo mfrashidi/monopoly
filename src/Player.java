@@ -20,6 +20,10 @@ public class Player {
         isTheirturn = theirturn;
     }
 
+    public void setCurrentPosition(int currentPosition) {
+        this.currentPosition = currentPosition;
+    }
+
     public void setMoneyDeposited(boolean moneyDeposited) {
         isMoneyDeposited = moneyDeposited;
     }
