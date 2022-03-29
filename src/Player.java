@@ -77,6 +77,10 @@ public class Player {
         balance+=amount;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
     public boolean equals(Player player) {
         return this.id==player.id;
     }
