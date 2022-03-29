@@ -16,6 +16,10 @@ public class Lands {
         return type;
     }
 
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
     public Integer getCost() {
         return cost;
     }
