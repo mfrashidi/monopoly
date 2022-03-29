@@ -16,6 +16,18 @@ public class Player {
         this.name = name;
     }
 
+    public void setTheirturn(boolean theirturn) {
+        isTheirturn = theirturn;
+    }
+
+    public void setMoneyDeposited(boolean moneyDeposited) {
+        isMoneyDeposited = moneyDeposited;
+    }
+
+    public void setInJail(boolean inJail) {
+        isInJail = inJail;
+    }
+
     public int getTaxTicket() {
         return taxTicket;
     }
