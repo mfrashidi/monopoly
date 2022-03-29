@@ -46,8 +46,38 @@ public class Game {
     }
 
     public boolean getCard(Cards card){
-        //TODO
-        return false;
+        if (card.equals(Cards.PayTenDollarToEveryone)){
+            if (currentPLayer.pay(players.size()*10)){
+                for(int i=0;i<players.size();i++){
+                    if (players.get(i)!=currentPLayer){
+                        players.get(i).getPaid(10);
+                    }
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        if (card.equals(Cards.DollorGift)){
+            currentPLayer.getPaid(200);
+        }
+        if (card.equals(Cards.GoToJail)){
+            currentPLayer.setCurrentPosition(13);
+            currentPLayer.setInJail(true);
+        }
+        if (card.equals(Cards.TenPercentPenalty)){
+            currentPLayer.pay(currentPLayer.getBalance()/10);
+        }
+        if (card.equals(Cards.ThreePlaceGoForward)){
+            currentPLayer.move(3);
+        }
+        if (card.equals(Cards.TicketToLeaveJail)){
+            currentPLayer.setJailTicket(currentPLayer.getJailTicket()+1);
+        }
+        if (card.equals(Cards.TicketToNotPayTax)){
+            currentPLayer.setTaxTicket(currentPLayer.getTaxTicket()+1);
+        }
+        return true;
     }
 
     public Cards giveCard(){
