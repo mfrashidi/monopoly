@@ -1,4 +1,5 @@
 enum Property {
+    Bank,
     Jail,
     Airport,
     Parking,
