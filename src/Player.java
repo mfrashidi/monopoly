@@ -23,13 +23,18 @@ public class Player {
         }
     }
 
-    public boolean buyProperty(){
-        //TODO
+    public boolean buyProperty(Lands land){
+        if (land.getCost()<=this.balance){
+            land.setOwner(this);
+            balance-=land.getCost();
+            ownLands.add(land);
+            return true;
+        }
         return false;
     }
 
     public boolean pay(int cost){
-        if (this.balance>cost){
+        if (this.balance>=cost){
             this.balance-=cost;
             return true;
         }
