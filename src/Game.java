@@ -2,7 +2,7 @@ import java.util.Vector;
 import java.lang.Math;
 
 public class Game {
-    Vector<Player> players;
+    Player[] players;
     Banker banker = new Banker();
     Lands[] lands = new Lands[24];
     Player currentPLayer;
@@ -36,9 +36,9 @@ public class Game {
         lands[23]= new Lands(banker,Property.RandomCard,null);
     }
 
-    public Game(Vector<Player> players){
+    public Game(Player... players){
         this.players=players;
-        this.currentPLayer= players.get(0);
+        this.currentPLayer= players[0];
     }
 
     public boolean payRent(){
@@ -58,9 +58,9 @@ public class Game {
     }
 
     public void nextTurn(){
-        for(int i=0;i<players.size();i++){
-            if (players.get(i).equals(currentPLayer)){
-                currentPLayer=players.get(i+1);
+        for(int i=0;i<players.length;i++){
+            if (players[i].equals(currentPLayer)){
+                currentPLayer=players[i+1];
             }
         }
     }
@@ -75,10 +75,10 @@ public class Game {
 
     public boolean getCard(Cards card){
         if (card.equals(Cards.PayTenDollarToEveryone)){
-            if (currentPLayer.pay(players.size()*10)){
-                for(int i=0;i<players.size();i++){
-                    if (players.get(i)!=currentPLayer){
-                        players.get(i).getPaid(10);
+            if (currentPLayer.pay(players.length*10)){
+                for(int i=0;i<players.length;i++){
+                    if (players[i]!=currentPLayer){
+                        players[i].getPaid(10);
                     }
                 }
             }
