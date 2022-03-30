@@ -61,6 +61,7 @@ public class Game {
         this.currentPLayer = currentPLayer;
     }
 
+    //paying rent for current player
     public boolean payRent(){
         LandsWithRent land = (LandsWithRent) (lands[currentPLayer.getCurrentPosition()-1]);
         if (currentPLayer.pay(land.getRent())){
@@ -69,14 +70,17 @@ public class Game {
         return false;
     }
 
+    //setting rent twice for same color properties
     public void twiceRent (LandsWithRent land){
         land.setRent(land.getRent()*2);
     }
 
+    //setting rent half for losing same color properties
     public void halfRent (LandsWithRent land){
         land.setRent(land.getRent()/2);
     }
 
+    //next player to play
     public void nextTurn(){
         for(int i=0;i<players.length;i++){
             if (players[i].equals(currentPLayer)){
@@ -85,6 +89,7 @@ public class Game {
         }
     }
 
+    //getting cards and doing the thing
     public boolean getCard(Cards card){
         if (card.equals(Cards.PayTenDollarToEveryone)){
             if (currentPLayer.pay(players.length*10)){
@@ -120,6 +125,7 @@ public class Game {
         return true;
     }
 
+    //giving random card
     public Cards giveCard(){
         int a = (int) (Math.random()*(7));
         switch (a){
@@ -134,8 +140,4 @@ public class Game {
         return null;
     }
 
-    public static void main(String[] args) {
-        Vector<Player> vector = new Vector<>();
-        vector.add(null);
-    }
 }
