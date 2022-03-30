@@ -5,43 +5,16 @@ public class Player {
     private int id, balance = 1500, currentPosition=1, taxTicket=0, jailTicket=0;
     private String name;
     private boolean isTheirturn= false , isMoneyDeposited=false, isInJail= false;
+    //lands that player owns
     private Vector<Lands> ownLands = new Vector<Lands>();
-
-    public int getCurrentPosition() {
-        return currentPosition;
-    }
-
-    public boolean build(EmptyLands land){
-        if (land.structures.get(0).equals(Structures.Hotels)){
-            return false;
-        }
-        for(int i=0; i<ownLands.size();i++){
-            EmptyLands temp = (EmptyLands) ownLands.get(i);
-            if(temp.structures.size()!=land.structures.size()){
-                return false;
-            }
-        }
-        if(land.structures.size()<4 && !(land.structures.get(0).equals(Structures.Hotels))){
-            if(!(this.pay(150))){
-                return false;
-            }
-            land.setRent(land.getRent()+100);
-            land.structures.add(Structures.Buildings);
-        }
-        if(land.structures.size()==4){
-            if(!(this.pay(100))){
-                return false;
-            }
-            land.setRent(land.getRent()+150);
-            land.structures.clear();
-            land.structures.add(Structures.Hotels);
-        }
-        return true;
-    }
 
     public Player(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public int getCurrentPosition() {
+        return currentPosition;
     }
 
     public void setTheirturn(boolean theirturn) {
@@ -76,6 +49,40 @@ public class Player {
         this.jailTicket = jailTicket;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
+    //build structures on emptyLands
+    public boolean build(EmptyLands land){
+        if (land.structures.get(0).equals(Structures.Hotels)){
+            return false;
+        }
+        for(int i=0; i<ownLands.size();i++){
+            EmptyLands temp = (EmptyLands) ownLands.get(i);
+            if(temp.structures.size()!=land.structures.size()){
+                return false;
+            }
+        }
+        if(land.structures.size()<4 && !(land.structures.get(0).equals(Structures.Hotels))){
+            if(!(this.pay(150))){
+                return false;
+            }
+            land.setRent(land.getRent()+100);
+            land.structures.add(Structures.Buildings);
+        }
+        if(land.structures.size()==4){
+            if(!(this.pay(100))){
+                return false;
+            }
+            land.setRent(land.getRent()+150);
+            land.structures.clear();
+            land.structures.add(Structures.Hotels);
+        }
+        return true;
+    }
+
+    //move forward
     public void move(int diceRoll){
         currentPosition+=diceRoll;
         if (currentPosition>24){
@@ -83,6 +90,7 @@ public class Player {
         }
     }
 
+    //buying Property for player
     public boolean buyProperty(Lands land){
         if (land.getCost()<=this.balance){
             land.setOwner(this);
@@ -93,6 +101,7 @@ public class Player {
         return false;
     }
 
+    //paying something
     public boolean pay(int cost){
         if (this.balance>=cost){
             this.balance-=cost;
@@ -101,12 +110,9 @@ public class Player {
         return false;
     }
 
+    //getting money for something
     public void getPaid(int amount){
         balance+=amount;
-    }
-
-    public int getBalance() {
-        return balance;
     }
 
     public boolean equals(Player player) {
