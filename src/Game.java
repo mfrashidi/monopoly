@@ -2,11 +2,11 @@ import java.util.Vector;
 import java.lang.Math;
 
 public class Game {
-    Player[] players;
-    Banker banker = new Banker();
-    Lands[] lands = new Lands[24];
-    Player currentPLayer;
-    Dice dice = new Dice();
+    private Player[] players;
+    private Banker banker = new Banker();
+    private Lands[] lands = new Lands[24];
+    private Player currentPLayer;
+    private Dice dice = new Dice();
 
     {
         Player banker = new Player(-1,"banker");
@@ -41,6 +41,26 @@ public class Game {
         this.currentPLayer= players[0];
     }
 
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public Banker getBanker() {
+        return banker;
+    }
+
+    public Lands[] getLands() {
+        return lands;
+    }
+
+    public Player getCurrentPLayer() {
+        return currentPLayer;
+    }
+
+    public void setCurrentPLayer(Player currentPLayer) {
+        this.currentPLayer = currentPLayer;
+    }
+
     public boolean payRent(){
         LandsWithRent land = (LandsWithRent) (lands[currentPLayer.getCurrentPosition()-1]);
         if (currentPLayer.pay(land.getRent())){
@@ -63,14 +83,6 @@ public class Game {
                 currentPLayer=players[i+1];
             }
         }
-    }
-
-    public void setCurrentPLayer(Player currentPLayer) {
-        this.currentPLayer = currentPLayer;
-    }
-
-    public Player getCurrentPLayer() {
-        return currentPLayer;
     }
 
     public boolean getCard(Cards card){
