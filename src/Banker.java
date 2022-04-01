@@ -2,7 +2,7 @@ import java.util.TreeMap;
 
 public class Banker {
     //a list for deposits
-    private TreeMap<Player,Integer> deposits = new TreeMap<Player,Integer>();
+    private TreeMap<Player,Integer> deposits = new TreeMap<>();
 
     //swapping wealth for some reason :/
     public boolean swapWealth (Player player1,Player player2){

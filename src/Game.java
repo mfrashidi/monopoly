@@ -103,7 +103,7 @@ public class Game {
                 return false;
             }
         }
-        if (card.equals(Cards.DollorGift)){
+        if (card.equals(Cards.DollarGift)){
             currentPLayer.getPaid(200);
         }
         if (card.equals(Cards.GoToJail)){
@@ -130,7 +130,7 @@ public class Game {
         int a = (int) (Math.random()*(7));
         switch (a){
             case 0: return Cards.PayTenDollarToEveryone;
-            case 1: return Cards.DollorGift;
+            case 1: return Cards.DollarGift;
             case 2: return Cards.GoToJail;
             case 3: return Cards.TenPercentPenalty;
             case 4: return Cards.ThreePlaceGoForward;

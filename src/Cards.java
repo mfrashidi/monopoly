@@ -1,5 +1,5 @@
 enum Cards {
-    DollorGift,
+    DollarGift,
     GoToJail,
     TenPercentPenalty,
     ThreePlaceGoForward,
