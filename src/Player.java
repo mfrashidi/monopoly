@@ -25,6 +25,10 @@ public class Player {
         return currentPosition;
     }
 
+    public boolean isTheirturn(){
+        return isTheirturn;
+    }
+
     public void setTheirturn(boolean theirturn) {
         isTheirturn = theirturn;
     }
@@ -33,8 +37,16 @@ public class Player {
         this.currentPosition = currentPosition;
     }
 
+    public boolean isMoneyDeposited(){
+        return isMoneyDeposited;
+    }
+
     public void setMoneyDeposited(boolean moneyDeposited) {
         isMoneyDeposited = moneyDeposited;
+    }
+
+    public boolean isInJail() {
+        return isInJail;
     }
 
     public void setInJail(boolean inJail) {
