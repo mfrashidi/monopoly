@@ -1,3 +1,9 @@
+package lands;
+
+import players.Player;
+import utilities.Property;
+import utilities.Structures;
+
 import java.util.Vector;
 
 public class EmptyLands extends LandsWithRent {
