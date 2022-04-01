@@ -1,3 +1,8 @@
+package lands;
+
+import players.Player;
+import utilities.Property;
+
 public class LandsWithRent extends Lands{
     private int rent;
 

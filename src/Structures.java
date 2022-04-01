@@ -1,4 +1,0 @@
-enum Structures {
-    Buildings,
-    Hotels
-}

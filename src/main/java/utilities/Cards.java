@@ -1,4 +1,6 @@
-enum Cards {
+package utilities;
+
+public enum Cards {
     DollarGift,
     GoToJail,
     TenPercentPenalty,

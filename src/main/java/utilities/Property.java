@@ -1,4 +1,6 @@
-enum Property {
+package utilities;
+
+public enum Property {
     Bank,
     Jail,
     Airport,

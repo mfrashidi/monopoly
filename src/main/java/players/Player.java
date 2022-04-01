@@ -1,3 +1,9 @@
+package players;
+
+import lands.EmptyLands;
+import lands.Lands;
+import utilities.Structures;
+
 import java.util.*;
 
 public class Player {

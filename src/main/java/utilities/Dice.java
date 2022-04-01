@@ -1,3 +1,5 @@
+package utilities;
+
 import java.lang.Math;
 
 public class Dice {
