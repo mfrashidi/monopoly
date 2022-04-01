@@ -4,7 +4,7 @@ public class Player {
 
     private int id, balance = 1500, currentPosition=1, taxTicket=0, jailTicket=0;
     private String name;
-    private boolean isTheirturn= false , isMoneyDeposited=false, isInJail= false, gotBroke=false;
+    private boolean isTheirTurn= false , isMoneyDeposited=false, isInJail= false, gotBroke=false;
     //lands that player owns
     private Vector<Lands> ownLands = new Vector<Lands>();
 
@@ -25,12 +25,12 @@ public class Player {
         return currentPosition;
     }
 
-    public boolean isTheirturn(){
-        return isTheirturn;
+    public boolean isTheirTurn(){
+        return isTheirTurn;
     }
 
-    public void setTheirturn(boolean theirturn) {
-        isTheirturn = theirturn;
+    public void setTheirTurn(boolean theirTurn) {
+        isTheirTurn = theirTurn;
     }
 
     public void setCurrentPosition(int currentPosition) {
