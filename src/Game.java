@@ -6,7 +6,6 @@ public class Game {
     private Banker banker = new Banker();
     private Lands[] lands = new Lands[24];
     private Player currentPLayer;
-    private Dice dice = new Dice();
 
     {
         Player banker = new Player(-1,"banker");
