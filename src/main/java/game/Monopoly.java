@@ -222,4 +222,8 @@ public class Monopoly {
         jui.changeBackgroundColor(Jui.Colors.DEFAULT);
         jui.changeCursorPosition(0, 0);
     }
+
+    public static void updateFooter(){
+
+    }
 }

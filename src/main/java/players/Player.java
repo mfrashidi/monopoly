@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Player {
 
-    private int id, balance = 1500, currentPosition=1, taxTicket=0, jailTicket=0;
+    private int id, balance = 1500, currentPosition=1, taxTicket=0, jailTicket=0, diceRoll = -1;
     private String name;
     private boolean isTheirTurn= false , isMoneyDeposited=false, isInJail= false, gotBroke=false;
     //lands that player owns
@@ -165,5 +165,9 @@ public class Player {
 
     public void updateActions(){
 
+    }
+
+    public int getDiceRoll() {
+        return diceRoll;
     }
 }
