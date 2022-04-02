@@ -1,4 +1,7 @@
+package game;
+
 import players.Player;
+import utilities.Jui;
 
 import java.io.IOException;
 
@@ -37,7 +40,7 @@ public class Monopoly {
     }
 
     public static void printTitle() throws IOException {
-        String gameName = "Monopoly";
+        String gameName = "game.Monopoly";
         jui.changeCursorPosition(2, (jui.getColumns() - gameName.length()) / 2);
         jui.customPrint(gameName, Jui.Colors.BOLD_GREEN);
 
@@ -47,23 +50,24 @@ public class Monopoly {
     }
 
     public static void addPlayer() throws IOException {
+        Jui.Colors[] colors = {Jui.Colors.BOLD_CYAN, Jui.Colors.BOLD_GREEN, Jui.Colors.BOLD_RED, Jui.Colors.BOLD_YELLOW};
         String name = "";
         String request = "Enter your name and then press ENTER";
         int letter;
         while (true){
             jui.clearScreen();
             printTitle();
-            jui.changeCursorPosition(jui.getRows() - 1, (jui.getColumns() - request.length()) / 2);
+            jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - request.length()) / 2);
             jui.customPrint(request, Jui.Colors.BOLD_YELLOW);
             jui.customPrint(name, Jui.Position.CENTER, Jui.Colors.BOLD_GREEN);
             letter = jui.getInput();
             if (letter == 127) {
                 if (name.length() > 0) name = name.substring(0, name.length() - 1);
             }
-            else if (letter == 13 && name.length() > 3) break;
-            else if (letter != 13) name += (char) letter;
+            else if (letter == 13 && name.length() > 2) break;
+            else if ((letter >=65 && letter <= 90) || (letter >=97 && letter <= 122)) name += (char) letter;
         }
-        Player player = new Player(players.length, name);
+        Player player = new Player(players.length, name, colors[players.length]);
 
         Player[] newPlayers = new Player[players.length + 1];
         System.arraycopy(players, 0, newPlayers, 0, players.length);
@@ -85,22 +89,22 @@ public class Monopoly {
                 jui.changeCursorPosition(row + i, (jui.getColumns() - (players[i].getName().length() + 3)) / 2);
                 jui.customPrint("#" + (i + 1) + " ", Jui.Colors.BOLD_RED);
                 jui.italic();
-                jui.customPrint(players[i].getName(), Jui.Colors.BOLD_MAGENTA);
+                jui.customPrint(players[i].getName(), players[i].getColor());
                 jui.italic();
             }
         }
 
-        if(option == 0) jui.changeBackgroundColor(Jui.Colors.BOLD_GRAY);
+        Jui.Colors color = ((players.length < 4) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+        if(option == 0) jui.changeBackgroundColor(color);
         String addPlayer = "Add Player";
-        jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - addPlayer.length()) / 2);
-        Jui.Colors color = ((players.length < 4) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_WHITE);
+        jui.changeCursorPosition(jui.getRows() - 3, (jui.getColumns() - addPlayer.length()) / 2);
         jui.customPrint(addPlayer, color);
         if(option == 0) jui.changeBackgroundColor(Jui.Colors.DEFAULT);
 
-        if(option == 1) jui.changeBackgroundColor(Jui.Colors.BOLD_GRAY);
-        String startGame = "Start Game";
-        jui.changeCursorPosition(jui.getRows() - 1, (jui.getColumns() - startGame.length()) / 2);
-        color = ((players.length > 1) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_WHITE);
+        color = ((players.length > 1) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+        if(option == 1) jui.changeBackgroundColor(color);
+        String startGame = "Start game.Game";
+        jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - startGame.length()) / 2);
         jui.customPrint(startGame, color);
         if(option == 1) jui.changeBackgroundColor(Jui.Colors.DEFAULT);
 

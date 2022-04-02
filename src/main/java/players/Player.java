@@ -1,5 +1,6 @@
 package players;
 
+import utilities.Jui;
 import lands.EmptyLands;
 import lands.Lands;
 import utilities.Actions;
@@ -22,6 +23,10 @@ public class Player {
         this.name = name;
         this.actions = new Actions[0];
         this.color = color;
+    }
+
+    public Jui.Colors getColor() {
+        return color;
     }
 
     public boolean isGotBroke() {

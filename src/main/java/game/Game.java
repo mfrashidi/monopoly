@@ -1,9 +1,12 @@
+package game;
+
 import lands.EmptyLands;
 import lands.Lands;
 import lands.LandsWithRent;
 import players.Banker;
 import players.Player;
 import utilities.Cards;
+import utilities.Jui;
 import utilities.Property;
 
 import java.lang.Math;
