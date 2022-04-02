@@ -148,6 +148,10 @@ public class Player {
         return this.id==player.id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Actions[] getActions(){
         return this.actions;
     }
