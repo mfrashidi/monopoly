@@ -40,7 +40,7 @@ public class Monopoly {
     }
 
     public static void printTitle() throws IOException {
-        String gameName = "game.Monopoly";
+        String gameName = "Monopoly";
         jui.changeCursorPosition(2, (jui.getColumns() - gameName.length()) / 2);
         jui.customPrint(gameName, Jui.Colors.BOLD_GREEN);
 
@@ -87,7 +87,7 @@ public class Monopoly {
 
             for (int i = 0; i < players.length; i++){
                 jui.changeCursorPosition(row + i, (jui.getColumns() - (players[i].getName().length() + 3)) / 2);
-                jui.customPrint("#" + (i + 1) + " ", Jui.Colors.BOLD_RED);
+                jui.customPrint((i + 1) + ") ", Jui.Colors.BOLD_WHITE);
                 jui.italic();
                 jui.customPrint(players[i].getName(), players[i].getColor());
                 jui.italic();
@@ -103,7 +103,7 @@ public class Monopoly {
 
         color = ((players.length > 1) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
         if(option == 1) jui.changeBackgroundColor(color);
-        String startGame = "Start game.Game";
+        String startGame = "Start Game";
         jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - startGame.length()) / 2);
         jui.customPrint(startGame, color);
         if(option == 1) jui.changeBackgroundColor(Jui.Colors.DEFAULT);
