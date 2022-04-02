@@ -19,30 +19,30 @@ public class Game {
 
     {
         Player banker = new Player(-1,"banker", Jui.Colors.DEFAULT);
-        lands[1]=new EmptyLands(null,Property.Empty,100);
-        lands[6]=new EmptyLands(null,Property.Empty,100);
-        lands[8]=new EmptyLands(null,Property.Empty,100);
-        lands[11]=new EmptyLands(null,Property.Empty,100);
-        lands[13]=new EmptyLands(null,Property.Empty,100);
-        lands[17]=new EmptyLands(null,Property.Empty,100);
-        lands[18]=new EmptyLands(null,Property.Empty,100);
-        lands[22]=new EmptyLands(null,Property.Empty,100);
-        lands[0]=new Lands(banker,Property.Parking,null);
-        lands[2]=new LandsWithRent(banker,Property.Airport,null);
-        lands[19]=new LandsWithRent(banker,Property.Airport,null);
-        lands[10]=new LandsWithRent(banker,Property.Airport,null);
-        lands[3]=new LandsWithRent(null,Property.Cinema,200);
-        lands[7]=new LandsWithRent(null,Property.Cinema,200);
-        lands[14]=new LandsWithRent(null,Property.Cinema,200);
-        lands[21]=new LandsWithRent(null,Property.Cinema,200);
-        lands[4]= new Lands(banker,Property.Road,null);
-        lands[9]= new Lands(banker,Property.Road,null);
-        lands[15]= new Lands(banker,Property.Road,null);
-        lands[5]= new Lands(banker,Property.Award,null);
-        lands[12]= new Lands(banker,Property.Jail,null);
-        lands[16]= new Lands(banker,Property.Tax,null);
-        lands[20]= new Lands(banker,Property.Bank,null);
-        lands[23]= new Lands(banker,Property.RandomCard,null);
+        lands[0]=new Lands(banker,Property.Parking,null, Jui.Colors.BLACK);
+        lands[1]=new EmptyLands(null,Property.Empty,100, Jui.Colors.GREEN);
+        lands[2]=new LandsWithRent(banker,Property.Airport,null, Jui.Colors.GRAY);
+        lands[3]=new LandsWithRent(null,Property.Cinema,200, Jui.Colors.RED);
+        lands[4]= new Lands(banker,Property.Road,null, Jui.Colors.GRAY);
+        lands[5]= new Lands(banker,Property.Award,null, Jui.Colors.GRAY);
+        lands[6]=new EmptyLands(null,Property.Empty,100, Jui.Colors.YELLOW);
+        lands[7]=new LandsWithRent(null,Property.Cinema,200, Jui.Colors.BLUE);
+        lands[8]=new EmptyLands(null,Property.Empty,100, Jui.Colors.RED);
+        lands[9]= new Lands(banker,Property.Road,null, Jui.Colors.GRAY);
+        lands[10]=new LandsWithRent(banker,Property.Airport,null, Jui.Colors.GRAY);
+        lands[11]=new EmptyLands(null,Property.Empty,100, Jui.Colors.GREEN);
+        lands[12]= new Lands(banker,Property.Jail,null, Jui.Colors.GRAY);
+        lands[13]=new EmptyLands(null,Property.Empty,100, Jui.Colors.BLUE);
+        lands[14]=new LandsWithRent(null,Property.Cinema,200, Jui.Colors.GREEN);
+        lands[15]= new Lands(banker,Property.Road,null, Jui.Colors.GRAY);
+        lands[16]= new Lands(banker,Property.Tax,null, Jui.Colors.GRAY);
+        lands[17]=new EmptyLands(null,Property.Empty,100, Jui.Colors.RED);
+        lands[18]=new EmptyLands(null,Property.Empty,100, Jui.Colors.YELLOW);
+        lands[19]=new LandsWithRent(banker,Property.Airport,null, Jui.Colors.GRAY);
+        lands[20]= new Lands(banker,Property.Bank,null, Jui.Colors.GRAY);
+        lands[21]=new LandsWithRent(null,Property.Cinema,200, Jui.Colors.YELLOW);
+        lands[22]=new EmptyLands(null,Property.Empty,100, Jui.Colors.BLUE);
+        lands[23]= new Lands(banker,Property.RandomCard,null, Jui.Colors.GRAY);
     }
 
     public Game(Player... players){

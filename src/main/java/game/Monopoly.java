@@ -186,11 +186,40 @@ public class Monopoly {
         }
 
         jui.changeColor(Jui.Colors.DEFAULT);
-        jui.sleep(5000);
+        jui.sleep(4000);
 
     }
 
-    public static void startGame(){
+    public static void startGame() throws IOException {
+        jui.clearScreen();
+        while (true){
+            printTable();
+            jui.getInput();
+            break;
+        }
 
+    }
+
+    public static void printTable() throws IOException {
+        int height = 3;
+        int width = 7;
+        int x, y, number;
+        for (int i = 0; i < 7; i++){
+            for (int j = 0;j < 7; j++){
+                number = 6 - i + j;
+                if (i > 0 && i < 6 && j > 0 && j < 6) continue;
+                x = ((jui.getRows() - (height * 7)) / 2) + height * i;
+                y = ((jui.getColumns() - (width * 7)) / 2) + width * j;
+                if (i > 0 && i < 6 && j == 6) number += 2 * i;
+                else if (i == 6 && j > 0) number = 24 - j;
+                jui.drawRectangle(height, width, game.getLands()[number].getColor(), x, y);
+            }
+        }
+        jui.changeBackgroundColor(Jui.Colors.RED);
+        String monopoly = "MONOPOLY";
+        jui.changeCursorPosition((jui.getRows() - 1) / 2, (jui.getColumns() - monopoly.length()) / 2);
+        System.out.print(monopoly);
+        jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+        jui.changeCursorPosition(0, 0);
     }
 }

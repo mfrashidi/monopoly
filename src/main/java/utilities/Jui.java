@@ -269,6 +269,16 @@ public final class Jui {
         changeBackgroundColor(Colors.DEFAULT);
     }
 
+    public void drawRectangle(int height, int width, Colors color, int x, int y) throws IOException {
+        changeBackgroundColor(color);
+        for(int i = 0; i < height; i++) {
+            changeCursorPosition(x + i, y);
+            for (int j = 0; j < width; j++)
+                System.out.print(" ");
+        }
+        changeBackgroundColor(Colors.DEFAULT);
+    }
+
     public void customPrint(String string, int row, int col){
         saveCursor();
         changeCursorPosition(row, col);
