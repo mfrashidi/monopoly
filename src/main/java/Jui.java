@@ -10,7 +10,7 @@ public final class Jui {
     private boolean isItalic = false;
 
 
-    enum Colors{
+    public enum Colors{
         DEFAULT,
         BLACK, BOLD_BLACK,
         RED, BOLD_RED,
@@ -23,7 +23,7 @@ public final class Jui {
         WHITE, BOLD_WHITE
     }
 
-    enum Position{
+    public enum Position{
         UPPER_LEFT, UPPER_CENTER, UPPER_RIGHT,
         CENTER_LEFT, CENTER, CENTER_RIGHT,
         LOWER_LEFT, LOWER_CENTER, LOWER_RIGHT

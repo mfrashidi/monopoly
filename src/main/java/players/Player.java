@@ -15,11 +15,13 @@ public class Player {
     //lands that player owns
     private Vector<Lands> ownLands = new Vector<Lands>();
     private Actions[] actions;
+    private Jui.Colors color;
 
-    public Player(int id, String name) {
+    public Player(int id, String name, Jui.Colors color) {
         this.id = id;
         this.name = name;
         this.actions = new Actions[0];
+        this.color = color;
     }
 
     public boolean isGotBroke() {

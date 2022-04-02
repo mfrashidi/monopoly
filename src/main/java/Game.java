@@ -15,7 +15,7 @@ public class Game {
     private Player currentPLayer;
 
     {
-        Player banker = new Player(-1,"banker");
+        Player banker = new Player(-1,"banker", Jui.Colors.DEFAULT);
         lands[1]=new EmptyLands(null,Property.Empty,100);
         lands[6]=new EmptyLands(null,Property.Empty,100);
         lands[8]=new EmptyLands(null,Property.Empty,100);
