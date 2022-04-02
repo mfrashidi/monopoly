@@ -2,6 +2,7 @@ package players;
 
 import lands.EmptyLands;
 import lands.Lands;
+import utilities.Actions;
 import utilities.Structures;
 
 import java.util.*;
@@ -13,10 +14,12 @@ public class Player {
     private boolean isTheirTurn= false , isMoneyDeposited=false, isInJail= false, gotBroke=false;
     //lands that player owns
     private Vector<Lands> ownLands = new Vector<Lands>();
+    private Actions[] actions;
 
     public Player(int id, String name) {
         this.id = id;
         this.name = name;
+        this.actions = new Actions[0];
     }
 
     public boolean isGotBroke() {
@@ -143,5 +146,13 @@ public class Player {
 
     public boolean equals(Player player) {
         return this.id==player.id;
+    }
+
+    public Actions[] getActions(){
+        return this.actions;
+    }
+
+    public void updateActions(){
+
     }
 }
