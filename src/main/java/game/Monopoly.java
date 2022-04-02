@@ -4,6 +4,7 @@ import players.Player;
 import utilities.Jui;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class Monopoly {
     private static Jui jui;
@@ -11,8 +12,9 @@ public class Monopoly {
     private static int option = 0;
     private static Game game;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         jui = new Jui();
+        printPoster();
         while (true){
             jui.clearScreen();
             printTitle();
@@ -40,13 +42,29 @@ public class Monopoly {
     }
 
     public static void printTitle() throws IOException {
-        String gameName = "Monopoly";
-        jui.changeCursorPosition(2, (jui.getColumns() - gameName.length()) / 2);
-        jui.customPrint(gameName, Jui.Colors.BOLD_GREEN);
+        String title = "                                                                 /$$          \n" +
+                "                                                                | $$          \n" +
+                " /$$$$$$/$$$$   /$$$$$$  /$$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$ | $$ /$$   /$$\n" +
+                "| $$_  $$_  $$ /$$__  $$| $$__  $$ /$$__  $$ /$$__  $$ /$$__  $$| $$| $$  | $$\n" +
+                "| $$ \\ $$ \\ $$| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$| $$  | $$\n" +
+                "| $$ | $$ | $$| $$  | $$| $$  | $$| $$  | $$| $$  | $$| $$  | $$| $$| $$  | $$\n" +
+                "| $$ | $$ | $$|  $$$$$$/| $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$/| $$|  $$$$$$$\n" +
+                "|__/ |__/ |__/ \\______/ |__/  |__/ \\______/ | $$____/  \\______/ |__/ \\____  $$\n" +
+                "                                            | $$                     /$$  | $$\n" +
+                "                                            | $$                    |  $$$$$$/\n" +
+                "                                            |__/                     \\______/ ";
+        jui.changeColor(Jui.Colors.values()[new Random().nextInt(Jui.Colors.values().length)]);
+        String[] lines = title.split("\n");
+        for (int i = 0; i < lines.length; i++){
+            jui.changeCursorPosition(2 + i, (jui.getColumns() - lines[i].length()) / 2);
+            System.out.print(lines[i]);
+        }
 
         String authors = "By @mfrashidi & @MohammadNikfallah";
-        jui.changeCursorPosition(3, (jui.getColumns() - authors.length()) / 2);
+        jui.changeCursorPosition(15, (jui.getColumns() - authors.length()) / 2);
+        jui.changeBackgroundColor(Jui.Colors.BOLD_CYAN);
         jui.customPrint(authors, Jui.Colors.BOLD_CYAN);
+        jui.changeBackgroundColor(Jui.Colors.DEFAULT);
     }
 
     public static void addPlayer() throws IOException {
@@ -59,7 +77,7 @@ public class Monopoly {
             printTitle();
             jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - request.length()) / 2);
             jui.customPrint(request, Jui.Colors.BOLD_YELLOW);
-            jui.customPrint(name, Jui.Position.CENTER, Jui.Colors.BOLD_GREEN);
+            jui.customPrint(name, Jui.Position.CENTER, colors[players.length]);
             letter = jui.getInput();
             if (letter == 127) {
                 if (name.length() > 0) name = name.substring(0, name.length() - 1);
@@ -109,6 +127,67 @@ public class Monopoly {
         if(option == 1) jui.changeBackgroundColor(Jui.Colors.DEFAULT);
 
         jui.changeCursorPosition(0, 0);
+    }
+
+    public static void printPoster() throws InterruptedException, IOException {
+        String poster = "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNXK00KXNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXd;'.:ddddxxxdxOXWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWO.  .xWWWWWNd.  .,:dKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNNNWNKKKXNNl   :XWWWWWx.       .lKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNkxxdooccol:cOk.  .lOO0XNd.       .llcKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWOcok0Kkdxd:c0Xk'..,ccclloc.       .xxlOWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWk:kW0:lxlcc'.ol. .:k0KKXNO:'..   .,ddcKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNW0cxWNxl00occ,..;:::cc:'.,;,..........'xWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXxl:oNMN00K0kkd;:oONWNNKxlc;lkkxdo:;;;:clldXWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWk;;loxxkkxkO0KXooOOXWWWWWOONKONWWWKoco:.;OKccXWWWWWWWWKkdolkWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWX;  .cdxxxodNWWx:0NKO0WWWWKKWWWWWWWWO:lc,'lk:lNMWNK00Okxx0Kd:OMWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWO'..    ...cNMWlcK0xcl0OOKWWWWWWWWWWXOKXXo,:oxO00xc;.,x0Okxd::o0WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWk;o;       'kxl::dx0KO0KxldKNWNXNWWWK0koc,;xO0XXxcol..oKO0NNX0c;0WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK;ll        ,:;oOXNXOx0NWXxdxl;lXWWXc..:okXWWWWWXXO::..;lxkOK0:'cokNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWd;d;         ...'coloxkkxddolxXWXx:,;xOOxxKWWWWWWKKx.  .;;...  ':ccOWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNo;o:            .lOXWWNKKKXXNNkcc:;:;....c0WWWWWWWNk,           ;c;xWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNkccl;.            ;lccolc:d0o:Od,o;.. .:xXWWWWWWWNOxo.          :c;KWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXxll:;,..       .c; .,.'loclXN:,xkc. ...dWWNWWXkOc:d'.,c.      ,l:0WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW0xddoc;,,''''.;l,.lOxdldXMNc'oo:.  .'dNkcdkxxdodxkxcok:     :clNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWX0xocc:;;.,'  .oNMNOkKWO':KXOooxXNXkoxkxd0WWWWWXll0;  .:clKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXkdoodoodddddddolccoxxkxkOOx,,d0X0Okkxx0Oxo'oWWWWWWx;kc .;lkNXd::dKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXxllox0XWWWWWWWWWWWWWWNX0kkkdokd;...';:oo:;:looxKWWWW0,.'..:xO0k;    'xNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNxclONWWWWWWWWWWWWWWWWWWWWWWWWNNWWN0xodxdoc;,:lddxXWN0l.    'd00XXOdoodOXkldOKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWXKXWWWWWKlc0WWWWWWWWWWWWWWWWWWWWWWWWWWWWWXXWWWWWWWWWX0kxk0KK0kl:cloxOKNWWWWWWWWWWK;.';ldx0NWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWW0l,':ldkOooXWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXxkNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW0'   .,;ldONWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWXko:.    .;KWWWWWWWWWWWWWWN0Ok0KkxkKWWWWWWWXdcxKXWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNklcll:;'.':l0WWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWNKOdc,.. 'OWWWWWWWWWWWXkdoxO0OO0Kkdodk0KNWWNOc::lkXWWWWWWWWWWWWWWWWWWWWWWWWWXOdodONWWWWN0kdONWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWX00Ox:lXXKKXWWWWXkoookXWWWWWWWWWKkolodxkOKNN0dc;:ldk0XNWWWWWWWWWWWNX0OxooodkXWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNXXd'...;oOOxxONWWWWWWWWWWWWWWWWWWWWWWWWWWWKko:;;;;::ccccccccllllodkKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNOl,..:OKXWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNXK0OkxxxxxkkOKXNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNKKNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW\n" +
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
+
+        jui.changeColor(Jui.Colors.BOLD_YELLOW);
+
+        String[] lines = poster.split("\n");
+        int length = 0;
+        for (int i=0; i < lines.length ; i++)
+            if (lines[i].length() > length)
+                length = lines[i].length();
+        int width = poster.split("\n").length;
+        if (jui.getColumns() >= length && jui.getRows() >= width) {
+            for (int i = 0; i < poster.split("\n").length; i++) {
+                length = lines[i].length();
+                jui.changeCursorPosition(((jui.getRows() - width)  / 2) + i, (jui.getColumns() - length) / 2);
+                System.out.print(lines[i]);
+                jui.sleep(100);
+            }
+        }
+
+        jui.changeColor(Jui.Colors.DEFAULT);
+        jui.sleep(5000);
+
     }
 
     public static void startGame(){
