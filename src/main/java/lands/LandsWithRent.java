@@ -7,8 +7,8 @@ import utilities.Property;
 public class LandsWithRent extends Lands{
     private int rent;
 
-    public LandsWithRent(Player owner, Property type,Integer cost, Jui.Colors color) {
-        super(owner, type, cost, color);
+    public LandsWithRent(Player owner, Property type,Integer cost, Jui.Colors color, String name) {
+        super(owner, type, cost, color, name);
     }
 
     public void setRent(int rent) {

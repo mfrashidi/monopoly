@@ -9,11 +9,13 @@ public class Lands {
     private Property type;
     private Integer cost;
     private Jui.Colors color;
-    public Lands(Player owner, Property type, Integer cost, Jui.Colors color) {
+    private String name;
+    public Lands(Player owner, Property type, Integer cost, Jui.Colors color, String name) {
         this.owner = owner;
         this.type = type;
         this.cost = cost;
         this.color = color;
+        this.name = name;
     }
 
     public Player getOwner() {
@@ -34,5 +36,9 @@ public class Lands {
 
     public Jui.Colors getColor() {
         return color;
+    }
+
+    public String getName() {
+        return name;
     }
 }
