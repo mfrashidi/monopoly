@@ -16,6 +16,7 @@ public class Game {
     private Banker banker = new Banker();
     private Lands[] lands = new Lands[24];
     private Player currentPLayer;
+    private boolean choosingPriorityMode = true;
 
     {
         Player banker = new Player(-1,"banker", Jui.Colors.DEFAULT);
@@ -147,6 +148,24 @@ public class Game {
             case 6: return Cards.TicketToNotPayTax;
         }
         return null;
+    }
+
+    public void setPriorities(){
+        if (this.choosingPriorityMode) {
+            for (Player player: players)
+                if (player.getDiceRoll() == -1) return;
+            Player tmpPlayer;
+            for (int i = 0; i < players.length - 1; i++) {
+                for (int j = 0; j < players.length - i - 1; j++) {
+                    if (players[j + 1].getDiceRoll() < players[j].getDiceRoll()){
+                        tmpPlayer = players[j + 1];
+                        players[j + 1] = players[j];
+                        players[j] = tmpPlayer;
+                    }
+                }
+            }
+            this.choosingPriorityMode = false;
+        }
     }
 
 }

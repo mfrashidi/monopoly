@@ -14,7 +14,7 @@ public class Monopoly {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         jui = new Jui();
-        printPoster();
+//        printPoster();
         while (true){
             jui.clearScreen();
             printTitle();
@@ -194,6 +194,8 @@ public class Monopoly {
         jui.clearScreen();
         while (true){
             printTable();
+            updateHeader();
+            updateFooter();
             jui.getInput();
             break;
         }
@@ -223,7 +225,27 @@ public class Monopoly {
         jui.changeCursorPosition(0, 0);
     }
 
-    public static void updateFooter(){
+    public static void updateHeader() throws IOException {
+        int position = game.getCurrentPLayer().getCurrentPosition() - 1;
+        jui.changeCursorPosition(2, 2);
+        jui.changeColor(Jui.Colors.BOLD_GREEN);
+        jui.italic();
+        System.out.print(game.getCurrentPLayer().getName());
+        jui.italic();
+        jui.changeColor(Jui.Colors.GREEN);
+        System.out.println("'s turn");
+        jui.changeColor(Jui.Colors.DEFAULT);
+    }
 
+    public static void updateFooter() throws IOException {
+        int position = game.getCurrentPLayer().getCurrentPosition() - 1;
+        jui.changeCursorPosition(jui.getRows() - 1, 2);
+        jui.changeColor(Jui.Colors.BOLD_YELLOW);
+        System.out.print("You are at: ");
+        jui.changeColor(Jui.Colors.BOLD_MAGENTA);
+        jui.italic();
+        System.out.print(game.getLands()[position].getName());
+        jui.italic();
+        jui.changeColor(Jui.Colors.DEFAULT);
     }
 }
