@@ -14,7 +14,7 @@ public class Monopoly {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         jui = new Jui();
-        printPoster();
+//        printPoster();
         while (true){
             jui.clearScreen();
             printTitle();
@@ -210,8 +210,8 @@ public class Monopoly {
             for (int j = 0;j < 7; j++){
                 number = 6 - i + j;
                 if (i > 0 && i < 6 && j > 0 && j < 6) continue;
-                x = ((jui.getRows() - (height * 7)) / 2) + height * i;
-                y = ((jui.getColumns() - (width * 7)) / 2) + width * j;
+                y = ((jui.getRows() - (height * 7)) / 2) + height * i;
+                x = ((jui.getColumns() - (width * 7)) / 2) + width * j;
                 if (i > 0 && i < 6 && j == 6) number += 2 * i;
                 else if (i == 6 && j > 0) number = 24 - j;
                 jui.drawRectangle(height, width, game.getLands()[number].getColor(), x, y);
@@ -227,11 +227,11 @@ public class Monopoly {
 
     public static void updateHeader() throws IOException {
         jui.changeCursorPosition(2, 2);
-        jui.changeColor(Jui.Colors.BOLD_GREEN);
+        jui.changeColor(game.getCurrentPLayer().getColor());
         jui.italic();
         System.out.print(game.getCurrentPLayer().getName());
         jui.italic();
-        jui.changeColor(Jui.Colors.GREEN);
+        jui.changeColor(game.getCurrentPLayer().getColor());
         System.out.println("'s turn");
         jui.changeColor(Jui.Colors.DEFAULT);
     }

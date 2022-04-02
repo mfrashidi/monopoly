@@ -272,7 +272,7 @@ public final class Jui {
     public void drawRectangle(int height, int width, Colors color, int x, int y) throws IOException {
         changeBackgroundColor(color);
         for(int i = 0; i < height; i++) {
-            changeCursorPosition(x + i, y);
+            changeCursorPosition(y + i, x);
             for (int j = 0; j < width; j++)
                 System.out.print(" ");
         }
