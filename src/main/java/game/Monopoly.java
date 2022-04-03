@@ -368,7 +368,10 @@ public class Monopoly {
                     actions.add(Actions.Next);
                 } else {
                     Property property = game.getLands()[currentPlayer.getCurrentPosition() - 1].getType();
-                    if (property.equals(Property.Airport) && currentPlayer.getBalance() >= 50) actions.add(Actions.Fly);
+                    if (property.equals(Property.Airport) && currentPlayer.getBalance() >= 50){
+                        actions.add(Actions.Fly);
+                        actions.add(Actions.Next);
+                    }
                     else if (property.equals(Property.Tax)) {
                         currentPlayer.pay((int) (currentPlayer.getBalance() * 0.1));
                         currentPlayer.setActionsDone(true);
@@ -422,6 +425,9 @@ public class Monopoly {
                     } else if (property.equals(Property.Jail)){
                         currentPlayer.setInJail(true);
                         actions.add(Actions.Free);
+                        actions.add(Actions.Next);
+                    } else if (property.equals(Property.Bank)){
+                        actions.add(Actions.Invest);
                         actions.add(Actions.Next);
                     }
                 }
