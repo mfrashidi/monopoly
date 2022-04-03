@@ -404,6 +404,7 @@ public class Monopoly {
                 if (currentPlayer.isActionsDone()){
                     actions.add(Actions.Next);
                 } else {
+                    if (currentPlayer.getDiceRoll() == 6 && !currentPlayer.isInJail()) actions.add(Actions.RollDice);
                     Property property = game.getLands()[currentPlayer.getCurrentPosition() - 1].getType();
                     if (property.equals(Property.Parking)) currentPlayer.setActionsDone(true);
                     if (property.equals(Property.Airport)){
@@ -460,8 +461,7 @@ public class Monopoly {
                             }
                         }
                     } else if (property.equals(Property.Jail)){
-                        currentPlayer.setInJail(true);
-                        actions.add(Actions.Free);
+                        if (currentPlayer.isInJail()) actions.add(Actions.Free);
                         actions.add(Actions.Next);
                     } else if (property.equals(Property.Bank)){
                         actions.add(Actions.Invest);

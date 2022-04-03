@@ -188,6 +188,11 @@ public class Player {
     }
 
     public void diceRoll() throws IOException {
+        int dice = Dice.roll(true);
+        if (dice == 6 && this.diceRoll == 6){
+            isInJail = true;
+            currentPosition = 13;
+        }
         this.diceRoll = Dice.roll(true);
     }
 
