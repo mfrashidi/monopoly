@@ -337,54 +337,15 @@ public class Monopoly {
         jui.customPrint("Actions:", Jui.Colors.BOLD_YELLOW);
         y += 2;
 
-        Jui.Colors color = ((currentPlayer.getActions().contains(Actions.RollDice)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
-        if(actionNumber == 0) jui.changeBackgroundColor(color);
-        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
-        jui.changeCursorPosition(y, x);
-        jui.customPrint("Roll Dice", color);
-        y++;
-
-        color = ((currentPlayer.getActions().contains(Actions.Buy)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
-        if(actionNumber == 1) jui.changeBackgroundColor(color);
-        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
-        jui.changeCursorPosition(y, x);
-        jui.customPrint("Buy", color);
-        y++;
-
-        color = ((currentPlayer.getActions().contains(Actions.Build)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
-        if(actionNumber == 2) jui.changeBackgroundColor(color);
-        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
-        jui.changeCursorPosition(y, x);
-        jui.customPrint("Build", color);
-        y++;
-
-        color = ((currentPlayer.getActions().contains(Actions.Sell)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
-        if(actionNumber == 3) jui.changeBackgroundColor(color);
-        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
-        jui.changeCursorPosition(y, x);
-        jui.customPrint("Sell", color);
-        y++;
-
-        color = ((currentPlayer.getActions().contains(Actions.Fly)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
-        if(actionNumber == 4) jui.changeBackgroundColor(color);
-        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
-        jui.changeCursorPosition(y, x);
-        jui.customPrint("Fly", color);
-        y++;
-
-        color = ((currentPlayer.getActions().contains(Actions.Free)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
-        if(actionNumber == 5) jui.changeBackgroundColor(color);
-        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
-        jui.changeCursorPosition(y, x);
-        jui.customPrint("Free", color);
-        y++;
-
-        color = ((currentPlayer.getActions().contains(Actions.Invest)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
-        if(actionNumber == 6) jui.changeBackgroundColor(color);
-        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
-        jui.changeCursorPosition(y, x);
-        jui.customPrint("Invest", color);
-        y++;
+        Jui.Colors color;
+        for (int i = 0; i < Actions.values().length; i++){
+            color = ((currentPlayer.getActions().contains(Actions.values()[i])) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+            if(actionNumber == i) jui.changeBackgroundColor(color);
+            else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+            jui.changeCursorPosition(y, x);
+            jui.customPrint(Actions.values()[i].toString(), color);
+            y++;
+        }
 
     }
 }
