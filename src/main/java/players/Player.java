@@ -7,6 +7,7 @@ import lands.Lands;
 import utilities.Actions;
 import utilities.Structures;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Player {
@@ -174,8 +175,8 @@ public class Player {
         return diceRoll;
     }
 
-    public void diceRoll(){
-        this.diceRoll = Dice.roll();
+    public void diceRoll() throws IOException {
+        this.diceRoll = Dice.roll(true);
     }
 
     public void setDiceRoll(int i) {
