@@ -379,7 +379,7 @@ public class Monopoly {
         String properties = "";
         for (Lands land: game.getCurrentPLayer().getOwnLands()) properties += land.getName() + ", ";
         if (properties.length() == 0) System.out.print("None");
-        else System.out.print(properties.substring(0, properties.length() - 2));
+        else System.out.print("[" + properties.substring(0, properties.length() - 2) + "]");
         jui.changeColor(Jui.Colors.DEFAULT);
 
         jui.changeCursorPosition(jui.getRows() - 5, 2);
