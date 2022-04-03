@@ -3,6 +3,7 @@ package game;
 import players.Player;
 import utilities.Actions;
 import utilities.Jui;
+import utilities.Property;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -363,7 +364,13 @@ public class Monopoly {
                 if (currentPlayer.isActionsDone()){
                     actions.add(Actions.Next);
                 } else {
-                    if (currentPlayer.getCurrentPosition() == 3 && currentPlayer.getBalance() >= 50) actions.add(Actions.Fly);
+                    Property property = game.getLands()[currentPlayer.getCurrentPosition() - 1].getType();
+                    if (property.equals(Property.Airport) && currentPlayer.getBalance() >= 50) actions.add(Actions.Fly);
+                    else if (property.equals(Property.Tax)) {
+                        currentPlayer.pay((int) (currentPlayer.getBalance() * 0.1));
+                        currentPlayer.setActionsDone(true);
+                        actions.add(Actions.Next);
+                    }
                 }
             }
         }
