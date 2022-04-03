@@ -175,4 +175,8 @@ public class Player {
     public void diceRoll(){
         this.diceRoll = Dice.roll();
     }
+
+    public void setDiceRoll(int i) {
+        this.diceRoll = i;
+    }
 }

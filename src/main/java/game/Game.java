@@ -171,6 +171,7 @@ public class Game {
                     }
                 }
             }
+            for (Player player: players) player.setDiceRoll(-1);
             currentPLayer = players[players.length - 1];
             this.choosingPriorityMode = false;
         }

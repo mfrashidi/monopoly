@@ -211,6 +211,8 @@ public class Monopoly {
                 if (game.getCurrentPLayer().getActions().contains(Actions.values()[actionNumber])){
                     switch (actionNumber){
                         case 0: game.getCurrentPLayer().diceRoll();
+                                if (!game.isChoosingPriorityMode())
+                                    game.getCurrentPLayer().setCurrentPosition(game.getCurrentPLayer().getCurrentPosition() + game.getCurrentPLayer().getDiceRoll());
                                 break;
                         case 7: game.nextTurn();
                                 actionNumber=0;
@@ -348,7 +350,10 @@ public class Monopoly {
             if (currentPlayer.getDiceRoll() == -1) actions.add(Actions.RollDice);
             else actions.add(Actions.Next);
         } else {
+            if (currentPlayer.getDiceRoll() == -1) actions.add(Actions.RollDice);
+            else {
 
+            }
         }
         currentPlayer.setActions(actions);
 
