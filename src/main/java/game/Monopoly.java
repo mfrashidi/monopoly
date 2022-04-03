@@ -399,7 +399,7 @@ public class Monopoly {
                         LandsWithRent land = (LandsWithRent) game.getLands()[currentPlayer.getCurrentPosition() - 1];
                         Player owner = land.getOwner();
                         if (owner == null){
-                            actions.add(Actions.Buy);
+                            if (currentPlayer.getBalance() >= land.getCost()) actions.add(Actions.Buy);
                             actions.add(Actions.Next);
                         } else {
                             if (currentPlayer.getBalance() >= land.getRent()){
@@ -418,7 +418,7 @@ public class Monopoly {
                         EmptyLands land = (EmptyLands) game.getLands()[currentPlayer.getCurrentPosition() - 1];
                         Player owner = land.getOwner();
                         if (owner == null){
-                            actions.add(Actions.Buy);
+                            if (currentPlayer.getBalance() >= land.getCost()) actions.add(Actions.Buy);
                             actions.add(Actions.Next);
                         } else if (owner.equals(currentPlayer)) {
                             actions.add(Actions.Build);
@@ -476,6 +476,22 @@ public class Monopoly {
                     currentPlayer.diceRoll();
                     if (!game.isChoosingPriorityMode() && !currentPlayer.isInJail())
                         currentPlayer.move(currentPlayer.getDiceRoll());
+                    break;
+                case 1:
+                    String ans;
+                    Lands land = game.getLands()[currentPlayer.getCurrentPosition() - 1];
+                    while (true){
+                        List<String> acceptedAns = new ArrayList<>(Arrays.asList("Y", "N"));
+                        ans = askQuestion("Wanna buy here? $" + land.getCost() + " " + acceptedAns);
+                        if (acceptedAns.contains(ans)){
+                            if (ans.equals("Y")){
+                                land.setOwner(currentPlayer);
+                                currentPlayer.pay(land.getCost());
+                                currentPlayer.setActionsDone(true);
+                                break;
+                            } else break;
+                        }
+                    }
                     break;
                 case 4:
                     String dest;
