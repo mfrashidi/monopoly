@@ -260,12 +260,21 @@ public class Monopoly {
                 }
             }
         }
-        jui.changeBackgroundColor(Jui.Colors.RED);
         String monopoly = " MONOPOLY ";
-        jui.changeCursorPosition((jui.getRows() - 1) / 2, (jui.getColumns() - monopoly.length()) / 2);
+        String spaces = "          ";
+
+        jui.changeBackgroundColor(Jui.Colors.RED);
+
+        jui.changeCursorPosition((jui.getRows() / 2) - 1, (jui.getColumns() - spaces.length()) / 2);
+        System.out.print(spaces);
+
+        jui.changeCursorPosition((jui.getRows() / 2), (jui.getColumns() - monopoly.length()) / 2);
         System.out.print(monopoly);
+
+        jui.changeCursorPosition((jui.getRows() / 2) + 1, (jui.getColumns() - spaces.length()) / 2);
+        System.out.print(spaces);
+
         jui.changeBackgroundColor(Jui.Colors.DEFAULT);
-        jui.changeCursorPosition(0, 0);
     }
 
     public static void updateLeaderboard() throws IOException {
