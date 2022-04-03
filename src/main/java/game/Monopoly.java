@@ -1,15 +1,19 @@
 package game;
 
 import players.Player;
+import utilities.Actions;
 import utilities.Jui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Monopoly {
     private static Jui jui;
     private static Player[] players = new Player[0];
     private static int option = 0;
+    private static int actionNumber = 0;
     private static Game game;
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -192,13 +196,18 @@ public class Monopoly {
 
     public static void startGame() throws IOException {
         jui.clearScreen();
+        int input;
         while (true){
             printTable();
             updateHeader();
             updateLeaderboard();
             updateFooter();
-            jui.getInput();
-            break;
+            updateActions();
+            jui.changeCursorPosition(jui.getRows(), jui.getColumns());
+            input = jui.getInput();
+            if (input == 65 && actionNumber > 0) actionNumber--;
+            else if (input == 66 && actionNumber < Actions.values().length - 1) actionNumber++;
+            else if (input == 127) break;
         }
 
     }
@@ -244,7 +253,7 @@ public class Monopoly {
             }
         }
         jui.changeBackgroundColor(Jui.Colors.RED);
-        String monopoly = "MONOPOLY";
+        String monopoly = " MONOPOLY ";
         jui.changeCursorPosition((jui.getRows() - 1) / 2, (jui.getColumns() - monopoly.length()) / 2);
         System.out.print(monopoly);
         jui.changeBackgroundColor(Jui.Colors.DEFAULT);
@@ -294,5 +303,74 @@ public class Monopoly {
         System.out.print(game.getLands()[position].getName());
         jui.italic();
         jui.changeColor(Jui.Colors.DEFAULT);
+    }
+
+    public static void updateActions() throws IOException {
+        Player currentPlayer = game.getCurrentPLayer();
+        if (game.isChoosingPriorityMode()){
+            List<Actions> actions = new ArrayList<>();
+            actions.add(Actions.RollDice);
+            currentPlayer.setActions(actions);
+        } else {
+
+        }
+
+        int lines = 9;
+        int x = jui.getColumns() - 20;
+        int y = (jui.getRows() - lines) / 2;
+
+        jui.changeCursorPosition(y, x);
+        jui.customPrint("Actions:", Jui.Colors.BOLD_YELLOW);
+        y += 2;
+
+        Jui.Colors color = ((currentPlayer.getActions().contains(Actions.RollDice)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+        if(actionNumber == 0) jui.changeBackgroundColor(color);
+        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+        jui.changeCursorPosition(y, x);
+        jui.customPrint("Roll Dice", color);
+        y++;
+
+        color = ((currentPlayer.getActions().contains(Actions.Buy)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+        if(actionNumber == 1) jui.changeBackgroundColor(color);
+        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+        jui.changeCursorPosition(y, x);
+        jui.customPrint("Buy", color);
+        y++;
+
+        color = ((currentPlayer.getActions().contains(Actions.Build)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+        if(actionNumber == 2) jui.changeBackgroundColor(color);
+        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+        jui.changeCursorPosition(y, x);
+        jui.customPrint("Build", color);
+        y++;
+
+        color = ((currentPlayer.getActions().contains(Actions.Sell)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+        if(actionNumber == 3) jui.changeBackgroundColor(color);
+        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+        jui.changeCursorPosition(y, x);
+        jui.customPrint("Sell", color);
+        y++;
+
+        color = ((currentPlayer.getActions().contains(Actions.Fly)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+        if(actionNumber == 4) jui.changeBackgroundColor(color);
+        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+        jui.changeCursorPosition(y, x);
+        jui.customPrint("Fly", color);
+        y++;
+
+        color = ((currentPlayer.getActions().contains(Actions.Free)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+        if(actionNumber == 5) jui.changeBackgroundColor(color);
+        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+        jui.changeCursorPosition(y, x);
+        jui.customPrint("Free", color);
+        y++;
+
+        color = ((currentPlayer.getActions().contains(Actions.Invest)) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+        if(actionNumber == 6) jui.changeBackgroundColor(color);
+        else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+        jui.changeCursorPosition(y, x);
+        jui.customPrint("Invest", color);
+        y++;
+
     }
 }

@@ -15,13 +15,13 @@ public class Player {
     private boolean isTheirTurn= false , isMoneyDeposited=false, isInJail= false, gotBroke=false;
     //lands that player owns
     private Vector<Lands> ownLands = new Vector<Lands>();
-    private Actions[] actions;
+    private List<Actions> actions;
     private Jui.Colors color;
 
     public Player(int id, String name, Jui.Colors color) {
         this.id = id;
         this.name = name;
-        this.actions = new Actions[0];
+        this.actions = new ArrayList<>();
         this.color = color;
     }
 
@@ -159,8 +159,12 @@ public class Player {
         return name;
     }
 
-    public Actions[] getActions(){
+    public List<Actions> getActions(){
         return this.actions;
+    }
+
+    public void setActions(List<Actions> actions) {
+        this.actions = actions;
     }
 
     public int getDiceRoll() {

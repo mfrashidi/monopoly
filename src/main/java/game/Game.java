@@ -67,6 +67,10 @@ public class Game {
         return currentPLayer;
     }
 
+    public boolean isChoosingPriorityMode() {
+        return choosingPriorityMode;
+    }
+
     public void setCurrentPLayer(Player currentPLayer) {
         this.currentPLayer = currentPLayer;
     }
