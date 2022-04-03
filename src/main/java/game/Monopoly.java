@@ -228,6 +228,11 @@ public class Monopoly {
 
                 jui.drawRectangle(height, width, game.getLands()[number].getColor(), x, y);
 
+                jui.changeBackgroundColor(Jui.Colors.BLACK);
+                jui.changeCursorPosition(y + height - 1, x + width - ((number + 1 < 10) ? 1 : 2));
+                jui.customPrint(String.valueOf(number + 1), Jui.Colors.BOLD_WHITE);
+                jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+
                 jui.changeBackgroundColor(game.getLands()[number].getColor());
                 jui.changeCursorPosition(y + (height / 2), x + (width / 2) - 1);
                 System.out.println(game.getLands()[number].getIcon());
