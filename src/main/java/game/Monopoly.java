@@ -209,7 +209,10 @@ public class Monopoly {
             else if (input == 66 && actionNumber < Actions.values().length - 1) actionNumber++;
             else if (input == 13){
                 if (game.getCurrentPLayer().getActions().contains(Actions.values()[actionNumber])){
-
+                    switch (actionNumber){
+                        case 0: game.getCurrentPLayer().diceRoll();break;
+                        case 7: game.nextTurn();break;
+                    }
                 } else jui.playSound();
             }
             else if (input == 127) break;
@@ -328,13 +331,15 @@ public class Monopoly {
 
     public static void updateActions() throws IOException {
         Player currentPlayer = game.getCurrentPLayer();
+        List<Actions> actions = new ArrayList<>();
         if (game.isChoosingPriorityMode()){
-            List<Actions> actions = new ArrayList<>();
-            actions.add(Actions.RollDice);
-            currentPlayer.setActions(actions);
+            if (currentPlayer.getDiceRoll() == -1) actions.add(Actions.RollDice);
+            else actions.add(Actions.Next);
         } else {
 
         }
+        currentPlayer.setActions(actions);
+
 
         int lines = 9;
         int x = jui.getColumns() - 20;
@@ -354,5 +359,6 @@ public class Monopoly {
             y++;
         }
 
+        game.setPriorities();
     }
 }

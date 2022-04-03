@@ -1,5 +1,6 @@
 package players;
 
+import utilities.Dice;
 import utilities.Jui;
 import lands.EmptyLands;
 import lands.Lands;
@@ -169,5 +170,9 @@ public class Player {
 
     public int getDiceRoll() {
         return diceRoll;
+    }
+
+    public void diceRoll(){
+        this.diceRoll = Dice.roll();
     }
 }
