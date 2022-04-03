@@ -195,6 +195,7 @@ public class Monopoly {
         while (true){
             printTable();
             updateHeader();
+            updateLeaderboard();
             updateFooter();
             jui.getInput();
             break;
@@ -223,6 +224,28 @@ public class Monopoly {
         System.out.print(monopoly);
         jui.changeBackgroundColor(Jui.Colors.DEFAULT);
         jui.changeCursorPosition(0, 0);
+    }
+
+    public static void updateLeaderboard() throws IOException {
+        int x = 2;
+        int y = ((jui.getRows()) - (game.getPlayers().length + 2)) / 2;
+        Player player;
+        jui.changeCursorPosition(y, x);
+        jui.customPrint("Leaderboard:", Jui.Colors.BOLD_YELLOW);
+        y += 2;
+        for (int i = 0; i < game.getPlayers().length; i++){
+            player = game.getPlayers()[i];
+            jui.changeCursorPosition(y, x);
+            jui.changeColor(Jui.Colors.BOLD_RED);
+            System.out.print((i + 1) + ") ");
+            jui.changeColor(player.getColor());
+            System.out.print(player.getName());
+            jui.changeColor(((player.getBalance() > 0) ? Jui.Colors.GREEN : Jui.Colors.RED));
+            jui.italic();
+            System.out.print(" $" + player.getBalance());
+            jui.italic();
+            y++;
+        }
     }
 
     public static void updateHeader() throws IOException {
