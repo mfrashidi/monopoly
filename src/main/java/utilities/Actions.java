@@ -8,5 +8,11 @@ public enum Actions {
     Fly,
     Free,
     Invest,
-    Next
+    Next;
+
+    @Override
+    public String toString(){
+        if (name().equals("RollDice")) return "Roll Dice";
+        else return name();
+    }
 }
