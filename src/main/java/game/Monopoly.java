@@ -1,5 +1,7 @@
 package game;
 
+import lands.Lands;
+import lands.LandsWithRent;
 import players.Player;
 import utilities.Actions;
 import utilities.Jui;
@@ -377,6 +379,25 @@ public class Monopoly {
                             currentPlayer.pay(currentPlayer.getBalance());
                             currentPlayer.setGotBroke(true);
                         }
+                        currentPlayer.setActionsDone(true);
+                    } else if (property.equals(Property.Cinema)) {
+                        LandsWithRent land = (LandsWithRent) game.getLands()[currentPlayer.getCurrentPosition() - 1];
+                        Player owner = land.getOwner();
+                        if (owner == null){
+                            actions.add(Actions.Buy);
+                            actions.add(Actions.Next);
+                        } else {
+                            if (currentPlayer.getBalance() >= land.getRent()){
+                                currentPlayer.pay(land.getRent());
+                                owner.getPaid(land.getRent());
+                                currentPlayer.setActionsDone(true);
+                            } else {
+                                currentPlayer.pay(currentPlayer.getBalance());
+                                currentPlayer.setGotBroke(true);
+                            }
+                        }
+                    } else if (property.equals(Property.Award)){
+                        currentPlayer.getPaid(200);
                         currentPlayer.setActionsDone(true);
                     }
                 }
