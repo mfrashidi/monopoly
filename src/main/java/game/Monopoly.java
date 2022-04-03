@@ -317,6 +317,13 @@ public class Monopoly {
         System.out.print("$" + game.getCurrentPLayer().getBalance());
         jui.underline();
         jui.changeColor(Jui.Colors.DEFAULT);
+
+        jui.changeCursorPosition(jui.getRows() - 4, 2);
+        jui.changeColor(Jui.Colors.BOLD_YELLOW);
+        System.out.print("Your last dice: ");
+        jui.changeColor(Jui.Colors.BOLD_GRAY);
+        System.out.print(game.getCurrentPLayer().getDiceRoll());
+        jui.changeColor(Jui.Colors.DEFAULT);
     }
 
     public static void updateActions() throws IOException {
