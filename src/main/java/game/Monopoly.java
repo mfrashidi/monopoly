@@ -20,6 +20,8 @@ public class Monopoly {
     private static int option = 0;
     private static int actionNumber = 0;
     private static Game game;
+    private static String message;
+    private static Jui.Colors msgColor;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         jui = new Jui();
@@ -497,6 +499,10 @@ public class Monopoly {
         if (currentPlayer.getActions().contains(Actions.values()[actionNumber])){
             switch (actionNumber){
                 case 0:
+                    String getCustomDiceRoll = "Enter a valid number between 1 to 6";
+                    jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - getCustomDiceRoll.length()) / 2);
+                    jui.customPrint(getCustomDiceRoll, Jui.Colors.BOLD_WHITE);
+                    jui.changeCursorPosition(0, 0);
                     currentPlayer.diceRoll();
                     if (!game.isChoosingPriorityMode() && !currentPlayer.isInJail())
                         currentPlayer.move(currentPlayer.getDiceRoll());
@@ -565,5 +571,10 @@ public class Monopoly {
         }
 
         return answer;
+    }
+
+    public static void updateMessage() throws IOException {
+        jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - message.length()) / 2);
+        jui.customPrint(message, msgColor);
     }
 }
