@@ -215,11 +215,32 @@ public class Monopoly {
                 x = ((jui.getColumns() - (width * 7)) / 2) + width * j;
                 if (i > 0 && i < 6 && j == 6) number += 2 * i;
                 else if (i == 6 && j > 0) number = 24 - j;
+
                 jui.drawRectangle(height, width, game.getLands()[number].getColor(), x, y);
+
                 jui.changeBackgroundColor(game.getLands()[number].getColor());
                 jui.changeCursorPosition(y + (height / 2), x + (width / 2) - 1);
                 System.out.println(game.getLands()[number].getIcon());
                 jui.changeBackgroundColor(Jui.Colors.DEFAULT);
+
+                if (number + 1 == game.getCurrentPLayer().getCurrentPosition()){
+                    if (number <= 6){
+                        x -= 2;
+                        y += height / 2;
+                    } else if (number < 12){
+                        y -= 1;
+                        x += width / 2;
+                    } else if (number <= 18){
+                        x += width + 1;
+                        y += height / 2;
+                    } else{
+                        y += height + 1;
+                        x += width / 2;
+                    }
+                    jui.changeColor(game.getCurrentPLayer().getColor());
+                    jui.changeCursorPosition(y, x);
+                    System.out.print("*");
+                }
             }
         }
         jui.changeBackgroundColor(Jui.Colors.RED);
