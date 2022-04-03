@@ -18,12 +18,14 @@ public class Player {
     private Vector<Lands> ownLands = new Vector<Lands>();
     private List<Actions> actions;
     private Jui.Colors color;
+    private boolean actionsDone;
 
     public Player(int id, String name, Jui.Colors color) {
         this.id = id;
         this.name = name;
         this.actions = new ArrayList<>();
         this.color = color;
+        this.actionsDone = false;
     }
 
     public Jui.Colors getColor() {
@@ -178,5 +180,13 @@ public class Player {
 
     public void setDiceRoll(int i) {
         this.diceRoll = i;
+    }
+
+    public boolean isActionsDone() {
+        return actionsDone;
+    }
+
+    public void setActionsDone(boolean actionsDone) {
+        this.actionsDone = actionsDone;
     }
 }
