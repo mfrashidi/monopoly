@@ -379,13 +379,13 @@ public class Monopoly {
                     actions.add(Actions.Next);
                 } else {
                     Property property = game.getLands()[currentPlayer.getCurrentPosition() - 1].getType();
+                    if (property.equals(Property.Parking)) currentPlayer.setActionsDone(true);
                     if (property.equals(Property.Airport) && currentPlayer.getBalance() >= 50){
-                        actions.add(Actions.Fly);
+                        if (currentPlayer.getBalance() >= 50) actions.add(Actions.Fly);
                         actions.add(Actions.Next);
                     }
                     else if (property.equals(Property.Tax)) {
                         currentPlayer.pay((int) (currentPlayer.getBalance() * 0.1));
-                        currentPlayer.setActionsDone(true);
                         currentPlayer.setActionsDone(true);
                     } else if (property.equals(Property.Road)) {
                         if (currentPlayer.getBalance() >= 100){
