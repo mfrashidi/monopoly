@@ -297,12 +297,23 @@ public class Monopoly {
     public static void updateLeaderboard() throws IOException {
         int x = 2;
         int y = ((jui.getRows()) - (game.getPlayers().length + 2)) / 2;
+        Player tmpPlayer;
+        Player[] sortedPlayers = game.getPlayers();
+        for (int i = 0; i < sortedPlayers.length - 1; i++){
+            for (int j = 0;j < sortedPlayers.length - i - 1; j++){
+                if (sortedPlayers[j].getBalance() < sortedPlayers[j + 1].getBalance()){
+                    tmpPlayer = sortedPlayers[j];
+                    sortedPlayers[j] = sortedPlayers[j + 1];
+                    sortedPlayers[j + 1] = tmpPlayer;
+                }
+            }
+        }
         Player player;
         jui.changeCursorPosition(y, x);
         jui.customPrint("Leaderboard:", Jui.Colors.BOLD_YELLOW);
         y += 2;
-        for (int i = 0; i < game.getPlayers().length; i++){
-            player = game.getPlayers()[i];
+        for (int i = 0; i < sortedPlayers.length; i++){
+            player = sortedPlayers[i];
             jui.changeCursorPosition(y, x);
             jui.changeColor(Jui.Colors.BOLD_RED);
             System.out.print((i + 1) + ") ");
