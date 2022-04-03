@@ -302,6 +302,15 @@ public class Monopoly {
         jui.italic();
         System.out.print(game.getLands()[position].getName());
         jui.italic();
+
+
+        jui.changeCursorPosition(jui.getRows() - 3, 2);
+        jui.changeColor(Jui.Colors.BOLD_YELLOW);
+        System.out.print("You have: ");
+        jui.changeColor(Jui.Colors.BOLD_GREEN);
+        jui.underline();
+        System.out.print("$" + game.getCurrentPLayer().getBalance());
+        jui.underline();
         jui.changeColor(Jui.Colors.DEFAULT);
     }
 

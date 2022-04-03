@@ -98,7 +98,8 @@ public class Game {
     public void nextTurn(){
         for(int i=0;i<players.length;i++){
             if (players[i].equals(currentPLayer)){
-                currentPLayer=players[i+1];
+                if (i == players.length - 1) currentPLayer = players[0];
+                else currentPLayer=players[i+1];
             }
         }
     }
@@ -168,6 +169,7 @@ public class Game {
                     }
                 }
             }
+            currentPLayer = players[players.length - 1];
             this.choosingPriorityMode = false;
         }
     }
