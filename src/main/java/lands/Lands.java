@@ -6,10 +6,10 @@ import utilities.Property;
 
 public class Lands {
     private Player owner;
-    private Property type;
+    private final Property type;
     private Integer cost;
-    private Jui.Colors color;
-    private String name;
+    private final Jui.Colors color;
+    private final String name;
     private String icon;
     public Lands(Player owner, Property type, Integer cost, Jui.Colors color, String name, String icon) {
         this.owner = owner;

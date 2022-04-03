@@ -369,7 +369,15 @@ public class Monopoly {
                     else if (property.equals(Property.Tax)) {
                         currentPlayer.pay((int) (currentPlayer.getBalance() * 0.1));
                         currentPlayer.setActionsDone(true);
-                        actions.add(Actions.Next);
+                        currentPlayer.setActionsDone(true);
+                    } else if (property.equals(Property.Road)) {
+                        if (currentPlayer.getBalance() >= 100){
+                            currentPlayer.pay(100);
+                        } else {
+                            currentPlayer.pay(currentPlayer.getBalance());
+                            currentPlayer.setGotBroke(true);
+                        }
+                        currentPlayer.setActionsDone(true);
                     }
                 }
             }
