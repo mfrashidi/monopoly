@@ -100,8 +100,10 @@ public class Game {
             if (players[i].equals(currentPLayer)){
                 if (i == players.length - 1) currentPLayer = players[0];
                 else currentPLayer=players[i+1];
+                break;
             }
         }
+        setPriorities();
     }
 
     //getting cards and doing the thing

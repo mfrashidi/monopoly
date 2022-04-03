@@ -359,6 +359,5 @@ public class Monopoly {
             y++;
         }
 
-        game.setPriorities();
     }
 }
