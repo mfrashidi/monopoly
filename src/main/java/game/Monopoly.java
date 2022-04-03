@@ -210,8 +210,22 @@ public class Monopoly {
             updateFooter();
             jui.changeCursorPosition(jui.getRows(), jui.getColumns());
             input = jui.getInput();
-            if (input == 65 && actionNumber > 0) actionNumber--;
-            else if (input == 66 && actionNumber < Actions.values().length - 1) actionNumber++;
+            if (input == 65){
+                for (int i = actionNumber - 1; i >= 0; i--){
+                    if (game.getCurrentPLayer().getActions().contains(Actions.values()[i])) {
+                        actionNumber = i;
+                        break;
+                    }
+                }
+            }
+            else if (input == 66){
+                for (int i = actionNumber + 1; i < Actions.values().length; i++){
+                    if (game.getCurrentPLayer().getActions().contains(Actions.values()[i])) {
+                        actionNumber = i;
+                        break;
+                    }
+                }
+            }
             else if (input == 13) handleActions();
             else if (input == 127) break;
         }
