@@ -216,6 +216,10 @@ public class Monopoly {
                 if (i > 0 && i < 6 && j == 6) number += 2 * i;
                 else if (i == 6 && j > 0) number = 24 - j;
                 jui.drawRectangle(height, width, game.getLands()[number].getColor(), x, y);
+                jui.changeBackgroundColor(game.getLands()[number].getColor());
+                jui.changeCursorPosition(y + (height / 2), x + (width / 2) - );
+                System.out.println(game.getLands()[number].getIcon());
+                jui.changeBackgroundColor(Jui.Colors.DEFAULT);
             }
         }
         jui.changeBackgroundColor(Jui.Colors.RED);
