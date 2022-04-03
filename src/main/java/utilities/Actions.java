@@ -7,5 +7,6 @@ public enum Actions {
     Sell,
     Fly,
     Free,
-    Invest
+    Invest,
+    Next
 }

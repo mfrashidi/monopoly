@@ -195,9 +195,9 @@ public class Monopoly {
     }
 
     public static void startGame() throws IOException {
-        jui.clearScreen();
         int input;
         while (true){
+            jui.clearScreen();
             printTable();
             updateHeader();
             updateLeaderboard();
@@ -207,6 +207,11 @@ public class Monopoly {
             input = jui.getInput();
             if (input == 65 && actionNumber > 0) actionNumber--;
             else if (input == 66 && actionNumber < Actions.values().length - 1) actionNumber++;
+            else if (input == 13){
+                if (game.getCurrentPLayer().getActions().contains(Actions.values()[actionNumber])){
+
+                } else jui.playSound();
+            }
             else if (input == 127) break;
         }
 
