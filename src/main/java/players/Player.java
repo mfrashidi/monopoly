@@ -163,10 +163,6 @@ public class Player {
         return this.actions;
     }
 
-    public void updateActions(){
-
-    }
-
     public int getDiceRoll() {
         return diceRoll;
     }
