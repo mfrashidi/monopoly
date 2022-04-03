@@ -195,4 +195,8 @@ public class Player {
         this.currentPosition = dest;
         this.balance -= 50;
     }
+
+    public Vector<Lands> getOwnLands() {
+        return ownLands;
+    }
 }
