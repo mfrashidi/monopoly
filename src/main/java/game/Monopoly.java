@@ -485,8 +485,7 @@ public class Monopoly {
                         ans = askQuestion("Wanna buy here? $" + land.getCost() + " " + acceptedAns);
                         if (acceptedAns.contains(ans)){
                             if (ans.equals("Y")){
-                                land.setOwner(currentPlayer);
-                                currentPlayer.pay(land.getCost());
+                                currentPlayer.buyProperty(land);
                                 currentPlayer.setActionsDone(true);
                                 break;
                             } else break;
