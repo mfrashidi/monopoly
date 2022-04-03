@@ -207,19 +207,7 @@ public class Monopoly {
             input = jui.getInput();
             if (input == 65 && actionNumber > 0) actionNumber--;
             else if (input == 66 && actionNumber < Actions.values().length - 1) actionNumber++;
-            else if (input == 13){
-                if (game.getCurrentPLayer().getActions().contains(Actions.values()[actionNumber])){
-                    switch (actionNumber){
-                        case 0: game.getCurrentPLayer().diceRoll();
-                                if (!game.isChoosingPriorityMode())
-                                    game.getCurrentPLayer().setCurrentPosition(game.getCurrentPLayer().getCurrentPosition() + game.getCurrentPLayer().getDiceRoll());
-                                break;
-                        case 7: game.nextTurn();
-                                actionNumber=0;
-                                break;
-                    }
-                } else jui.playSound();
-            }
+            else if (input == 13) handleActions();
             else if (input == 127) break;
         }
 
@@ -376,5 +364,19 @@ public class Monopoly {
             y++;
         }
 
+    }
+
+    public static void handleActions(){
+        if (game.getCurrentPLayer().getActions().contains(Actions.values()[actionNumber])){
+            switch (actionNumber){
+                case 0: game.getCurrentPLayer().diceRoll();
+                    if (!game.isChoosingPriorityMode())
+                        game.getCurrentPLayer().setCurrentPosition(game.getCurrentPLayer().getCurrentPosition() + game.getCurrentPLayer().getDiceRoll());
+                    break;
+                case 7: game.nextTurn();
+                    actionNumber=0;
+                    break;
+            }
+        } else jui.playSound();
     }
 }
