@@ -210,8 +210,11 @@ public class Monopoly {
             else if (input == 13){
                 if (game.getCurrentPLayer().getActions().contains(Actions.values()[actionNumber])){
                     switch (actionNumber){
-                        case 0: game.getCurrentPLayer().diceRoll();break;
-                        case 7: game.nextTurn();break;
+                        case 0: game.getCurrentPLayer().diceRoll();
+                                break;
+                        case 7: game.nextTurn();
+                                actionNumber=0;
+                                break;
                     }
                 } else jui.playSound();
             }
