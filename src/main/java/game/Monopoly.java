@@ -357,18 +357,18 @@ public class Monopoly {
     public static void updateFooter() throws IOException {
         int position = game.getCurrentPLayer().getCurrentPosition() - 1;
         jui.changeCursorPosition(jui.getRows() - 2, 2);
-        jui.changeColor(Jui.Colors.BOLD_YELLOW);
-        System.out.print("You are at: ");
-        jui.changeColor(Jui.Colors.BOLD_MAGENTA);
+        jui.changeColor(Jui.Colors.BOLD_RED);
+        System.out.print("📍 Place: ");
+        jui.changeColor(Jui.Colors.RED);
         jui.italic();
         System.out.print(game.getLands()[position].getName());
         jui.italic();
 
 
         jui.changeCursorPosition(jui.getRows() - 3, 2);
-        jui.changeColor(Jui.Colors.BOLD_YELLOW);
-        System.out.print("You have: ");
         jui.changeColor(Jui.Colors.BOLD_GREEN);
+        System.out.print("💵 Balance: ");
+        jui.changeColor(Jui.Colors.GREEN);
         jui.underline();
         System.out.print("$" + game.getCurrentPLayer().getBalance());
         jui.underline();
@@ -376,8 +376,8 @@ public class Monopoly {
 
         jui.changeCursorPosition(jui.getRows() - 4, 2);
         jui.changeColor(Jui.Colors.BOLD_YELLOW);
-        System.out.print("Your properties: ");
-        jui.changeColor(Jui.Colors.BOLD_RED);
+        System.out.print("🏠 Properties: ");
+        jui.changeColor(Jui.Colors.YELLOW);
         String properties = "";
         for (Lands land: game.getCurrentPLayer().getOwnLands()) properties += land.getName() + ", ";
         if (properties.length() == 0) System.out.print("None");
@@ -385,10 +385,10 @@ public class Monopoly {
         jui.changeColor(Jui.Colors.DEFAULT);
 
         jui.changeCursorPosition(jui.getRows() - 5, 2);
-        jui.changeColor(Jui.Colors.BOLD_YELLOW);
-        System.out.print("Your last dice: ");
         jui.changeColor(Jui.Colors.BOLD_GRAY);
-        System.out.print(game.getCurrentPLayer().getDiceRoll());
+        System.out.print("🎲 Dice: ");
+        jui.changeColor(Jui.Colors.GRAY);
+        System.out.print((game.getCurrentPLayer().getDiceRoll() != -1) ? game.getCurrentPLayer().getDiceRoll() : "Not rolled");
         jui.changeColor(Jui.Colors.DEFAULT);
     }
 
