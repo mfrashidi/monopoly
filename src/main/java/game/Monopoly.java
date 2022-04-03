@@ -214,8 +214,8 @@ public class Monopoly {
     }
 
     public static void printTable() throws IOException {
-        int height = 3;
-        int width = 7;
+        int height = 5;
+        int width = 11;
         int x, y, number;
         for (int i = 0; i < 7; i++){
             for (int j = 0;j < 7; j++){
