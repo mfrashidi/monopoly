@@ -380,7 +380,7 @@ public class Monopoly {
                 } else {
                     Property property = game.getLands()[currentPlayer.getCurrentPosition() - 1].getType();
                     if (property.equals(Property.Parking)) currentPlayer.setActionsDone(true);
-                    if (property.equals(Property.Airport) && currentPlayer.getBalance() >= 50){
+                    if (property.equals(Property.Airport)){
                         if (currentPlayer.getBalance() >= 50) actions.add(Actions.Fly);
                         actions.add(Actions.Next);
                     }
