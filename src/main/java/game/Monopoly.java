@@ -367,14 +367,20 @@ public class Monopoly {
     }
 
     public static void handleActions(){
-        if (game.getCurrentPLayer().getActions().contains(Actions.values()[actionNumber])){
+        Player currentPlayer = game.getCurrentPLayer();
+        if (currentPlayer.getActions().contains(Actions.values()[actionNumber])){
             switch (actionNumber){
-                case 0: game.getCurrentPLayer().diceRoll();
+                case 0:
+                    currentPlayer.diceRoll();
                     if (!game.isChoosingPriorityMode())
-                        game.getCurrentPLayer().setCurrentPosition(game.getCurrentPLayer().getCurrentPosition() + game.getCurrentPLayer().getDiceRoll());
+                        currentPlayer.setCurrentPosition(currentPlayer.getCurrentPosition() + currentPlayer.getDiceRoll());
                     break;
-                case 7: game.nextTurn();
+                case 4:
+                    break;
+                case 7:
+                    game.nextTurn();
                     actionNumber=0;
+                    currentPlayer.setActionsDone(false);
                     break;
             }
         } else jui.playSound();
