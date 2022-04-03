@@ -1,11 +1,9 @@
 package players;
 
-import utilities.Dice;
-import utilities.Jui;
+import lands.LandsWithRent;
+import utilities.*;
 import lands.EmptyLands;
 import lands.Lands;
-import utilities.Actions;
-import utilities.Structures;
 
 import java.io.IOException;
 import java.util.*;
@@ -136,6 +134,20 @@ public class Player {
             land.setOwner(this);
             balance-=land.getCost();
             ownLands.add(land);
+
+            if (land.getType().equals(Property.Cinema)){
+                int numberOfCinemas = 0;
+                for (Lands playerLand: ownLands){
+                    if (playerLand.getType().equals(Property.Cinema)) numberOfCinemas++;
+                }
+                int rent = (int) (25 * Math.pow(2, numberOfCinemas - 1));
+                for (Lands playerLand: ownLands){
+                    if (playerLand.getType().equals(Property.Cinema)){
+                        LandsWithRent cinema = (LandsWithRent) playerLand;
+                        cinema.setRent(rent);
+                    }
+                }
+            }
             return true;
         }
         return false;
