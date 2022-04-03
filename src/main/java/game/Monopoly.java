@@ -217,7 +217,7 @@ public class Monopoly {
                 else if (i == 6 && j > 0) number = 24 - j;
                 jui.drawRectangle(height, width, game.getLands()[number].getColor(), x, y);
                 jui.changeBackgroundColor(game.getLands()[number].getColor());
-                jui.changeCursorPosition(y + (height / 2), x + (width / 2) - );
+                jui.changeCursorPosition(y + (height / 2), x + (width / 2) - 1);
                 System.out.println(game.getLands()[number].getIcon());
                 jui.changeBackgroundColor(Jui.Colors.DEFAULT);
             }
