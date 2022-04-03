@@ -203,11 +203,11 @@ public class Monopoly {
         int input;
         while (true){
             jui.clearScreen();
+            updateActions();
             printTable();
             updateHeader();
             updateLeaderboard();
             updateFooter();
-            updateActions();
             jui.changeCursorPosition(jui.getRows(), jui.getColumns());
             input = jui.getInput();
             if (input == 65 && actionNumber > 0) actionNumber--;
