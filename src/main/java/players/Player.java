@@ -189,4 +189,9 @@ public class Player {
     public void setActionsDone(boolean actionsDone) {
         this.actionsDone = actionsDone;
     }
+
+    public void fly(int dest) {
+        this.currentPosition = dest;
+        this.balance -= 50;
+    }
 }

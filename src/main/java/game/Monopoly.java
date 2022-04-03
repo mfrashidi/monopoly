@@ -6,6 +6,7 @@ import utilities.Jui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -359,7 +360,11 @@ public class Monopoly {
         } else {
             if (currentPlayer.getDiceRoll() == -1) actions.add(Actions.RollDice);
             else {
-
+                if (currentPlayer.isActionsDone()){
+                    actions.add(Actions.Next);
+                } else {
+                    if (currentPlayer.getCurrentPosition() == 3 && currentPlayer.getBalance() >= 50) actions.add(Actions.Fly);
+                }
             }
         }
         currentPlayer.setActions(actions);
@@ -375,7 +380,8 @@ public class Monopoly {
 
         Jui.Colors color;
         for (int i = 0; i < Actions.values().length; i++){
-            color = ((currentPlayer.getActions().contains(Actions.values()[i])) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.BOLD_GRAY);
+            color = ((currentPlayer.getActions().contains(Actions.values()[i])) ? Jui.Colors.BOLD_YELLOW : Jui.Colors.GRAY);
+            if(actionNumber == i && color.equals(Jui.Colors.GRAY)) color = Jui.Colors.BOLD_GRAY;
             if(actionNumber == i) jui.changeBackgroundColor(color);
             else jui.changeBackgroundColor(Jui.Colors.DEFAULT);
             jui.changeCursorPosition(y, x);
@@ -385,23 +391,63 @@ public class Monopoly {
 
     }
 
-    public static void handleActions(){
+    public static void handleActions() throws IOException {
         Player currentPlayer = game.getCurrentPLayer();
         if (currentPlayer.getActions().contains(Actions.values()[actionNumber])){
             switch (actionNumber){
                 case 0:
                     currentPlayer.diceRoll();
                     if (!game.isChoosingPriorityMode())
-                        currentPlayer.setCurrentPosition(currentPlayer.getCurrentPosition() + currentPlayer.getDiceRoll());
+                        currentPlayer.move(currentPlayer.getDiceRoll());
                     break;
                 case 4:
+                    String dest;
+                    while (true){
+                        List<String> acceptedPlaces = new ArrayList<>(Arrays.asList("3", "11", "20"));
+                        acceptedPlaces.remove(String.valueOf(currentPlayer.getCurrentPosition()));
+                        dest = askQuestion("Which airport do you wanna go? " + acceptedPlaces);
+                        if (acceptedPlaces.contains(dest)) break;
+                    }
+                    currentPlayer.fly(Integer.parseInt(dest));
+                    currentPlayer.setActionsDone(true);
                     break;
                 case 7:
                     game.nextTurn();
                     actionNumber=0;
+                    if (!game.isChoosingPriorityMode()) currentPlayer.setDiceRoll(-1);
                     currentPlayer.setActionsDone(false);
                     break;
             }
         } else jui.playSound();
+    }
+
+    public static String askQuestion(String question) throws IOException {
+        String answer = "";
+        int letter;
+
+        while (true){
+            jui.clearScreen();
+            printTable();
+            updateHeader();
+            updateLeaderboard();
+            updateFooter();
+            updateActions();
+
+            jui.changeCursorPosition(jui.getRows() - 3, (jui.getColumns() - question.length()) / 2);
+            jui.customPrint(question, Jui.Colors.BOLD_YELLOW);
+
+            jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - answer.length()) / 2);
+            jui.customPrint(answer,  Jui.Colors.BOLD_WHITE);
+
+            letter = jui.getInput();
+
+            if (letter == 127) {
+                if (answer.length() > 0) answer = answer.substring(0, answer.length() - 1);
+            }
+            else if ((letter >=65 && letter <= 90) || (letter >=97 && letter <= 122) || (letter >=48 && letter <= 57)) answer += (char) letter;
+            else if (letter == 13) break;
+        }
+
+        return answer;
     }
 }
