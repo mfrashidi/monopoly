@@ -258,20 +258,34 @@ public class Monopoly {
                 }
             }
         }
-        String monopoly = " MONOPOLY ";
-        String spaces = "          ";
+        String title = "  __  __  ____  _   _  ____  _____   ____  _  __     __\n" +
+                " |  \\/  |/ __ \\| \\ | |/ __ \\|  __ \\ / __ \\| | \\ \\   / /\n" +
+                " | \\  / | |  | |  \\| | |  | | |__) | |  | | |  \\ \\_/ / \n" +
+                " | |\\/| | |  | | . ` | |  | |  ___/| |  | | |   \\   /  \n" +
+                " | |  | | |__| | |\\  | |__| | |    | |__| | |____| |   \n" +
+                " |_|  |_|\\____/|_| \\_|\\____/|_|     \\____/|______|_|   ";
+//        String spaces = "          ";
 
-        jui.changeBackgroundColor(Jui.Colors.RED);
+//        jui.changeBackgroundColor(Jui.Colors.RED);
+//
+//        jui.changeCursorPosition((jui.getRows() / 2) - 1, (jui.getColumns() - spaces.length()) / 2);
+//        System.out.print(spaces);
+//
+//        jui.changeCursorPosition((jui.getRows() / 2), (jui.getColumns() - monopoly.length()) / 2);
+//        System.out.print(monopoly);
+//
+//        jui.changeCursorPosition((jui.getRows() / 2) + 1, (jui.getColumns() - spaces.length()) / 2);
+//        System.out.print(spaces);
+//
+//        jui.changeBackgroundColor(Jui.Colors.DEFAULT);
 
-        jui.changeCursorPosition((jui.getRows() / 2) - 1, (jui.getColumns() - spaces.length()) / 2);
-        System.out.print(spaces);
-
-        jui.changeCursorPosition((jui.getRows() / 2), (jui.getColumns() - monopoly.length()) / 2);
-        System.out.print(monopoly);
-
-        jui.changeCursorPosition((jui.getRows() / 2) + 1, (jui.getColumns() - spaces.length()) / 2);
-        System.out.print(spaces);
-
+        jui.changeColor(Jui.Colors.BOLD_RED);
+        String[] lines = title.split("\n");
+        y = (jui.getRows() - lines.length) / 2;
+        for (int i = 0; i < lines.length; i++){
+            jui.changeCursorPosition(y + i, (jui.getColumns() - lines[i].length()) / 2);
+            System.out.print(lines[i]);
+        }
         jui.changeBackgroundColor(Jui.Colors.DEFAULT);
     }
 
