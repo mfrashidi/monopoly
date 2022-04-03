@@ -1,5 +1,6 @@
 package game;
 
+import lands.EmptyLands;
 import lands.Lands;
 import lands.LandsWithRent;
 import players.Player;
@@ -399,6 +400,29 @@ public class Monopoly {
                     } else if (property.equals(Property.Award)){
                         currentPlayer.getPaid(200);
                         currentPlayer.setActionsDone(true);
+                    } else if (property.equals(Property.Empty)){
+                        EmptyLands land = (EmptyLands) game.getLands()[currentPlayer.getCurrentPosition() - 1];
+                        Player owner = land.getOwner();
+                        if (owner == null){
+                            actions.add(Actions.Buy);
+                            actions.add(Actions.Next);
+                        } else if (owner.equals(currentPlayer)) {
+                            actions.add(Actions.Build);
+                            actions.add(Actions.Next);
+                        } else {
+                            if (currentPlayer.getBalance() >= land.getRent()){
+                                currentPlayer.pay(land.getRent());
+                                owner.getPaid(land.getRent());
+                                currentPlayer.setActionsDone(true);
+                            } else {
+                                currentPlayer.pay(currentPlayer.getBalance());
+                                currentPlayer.setGotBroke(true);
+                            }
+                        }
+                    } else if (property.equals(Property.Jail)){
+                        currentPlayer.setInJail(true);
+                        actions.add(Actions.Free);
+                        actions.add(Actions.Next);
                     }
                 }
             }
@@ -433,7 +457,7 @@ public class Monopoly {
             switch (actionNumber){
                 case 0:
                     currentPlayer.diceRoll();
-                    if (!game.isChoosingPriorityMode())
+                    if (!game.isChoosingPriorityMode() && !currentPlayer.isInJail())
                         currentPlayer.move(currentPlayer.getDiceRoll());
                     break;
                 case 4:
