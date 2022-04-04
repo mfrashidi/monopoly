@@ -18,6 +18,7 @@ public class Player {
     private List<Actions> actions;
     private Jui.Colors color;
     private boolean actionsDone;
+    private int daysInJail = 0;
 
     public Player(int id, String name, Jui.Colors color) {
         this.id = id;
@@ -193,7 +194,7 @@ public class Player {
             isInJail = true;
             currentPosition = 13;
         }
-        this.diceRoll = Dice.roll(true);
+        this.diceRoll = dice;
     }
 
     public void setDiceRoll(int i) {
@@ -216,4 +217,13 @@ public class Player {
     public Vector<Lands> getOwnLands() {
         return ownLands;
     }
+
+    public int getDaysInJail() {
+        return daysInJail;
+    }
+
+    public void setDaysInJail(int daysInJail) {
+        this.daysInJail = daysInJail;
+    }
+
 }

@@ -20,8 +20,8 @@ public class Monopoly {
     private static int option = 0;
     private static int actionNumber = 0;
     private static Game game;
-    private static String message;
-    private static Jui.Colors msgColor;
+    private static String message = "Welcome to the Monopoly!";
+    private static Jui.Colors msgColor = Jui.Colors.BOLD_YELLOW;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         jui = new Jui();
@@ -41,7 +41,7 @@ public class Monopoly {
                     else jui.playSound();
                 }
                 else if (option == 1){
-                    if (players.length > 1){
+                    if (players.length > 0){
                         game = new Game(players);
                         startGame();
                     } else {
@@ -210,6 +210,7 @@ public class Monopoly {
             updateHeader();
             updateLeaderboard();
             updateFooter();
+            updateMessage();
             jui.changeCursorPosition(jui.getRows(), jui.getColumns());
             input = jui.getInput();
             if (input == 65){
@@ -462,8 +463,13 @@ public class Monopoly {
                             }
                         }
                     } else if (property.equals(Property.Jail)){
-                        if (currentPlayer.isInJail()) actions.add(Actions.Free);
-                        actions.add(Actions.Next);
+                        if (currentPlayer.getDiceRoll() == 1){
+                            currentPlayer.setInJail(false);
+                            actions.add(Actions.RollDice);
+                        } else {
+                            if (currentPlayer.isInJail()) actions.add(Actions.Free);
+                            actions.add(Actions.Next);
+                        }
                     } else if (property.equals(Property.Bank)){
                         actions.add(Actions.Invest);
                         actions.add(Actions.Next);
@@ -498,6 +504,7 @@ public class Monopoly {
     public static void handleActions() throws IOException {
         Player currentPlayer = game.getCurrentPLayer();
         if (currentPlayer.getActions().contains(Actions.values()[actionNumber])){
+            String ans;
             switch (actionNumber){
                 case 0:
                     String getCustomDiceRoll = "Enter a valid number between 1 to 6";
@@ -507,9 +514,18 @@ public class Monopoly {
                     currentPlayer.diceRoll();
                     if (!game.isChoosingPriorityMode() && !currentPlayer.isInJail())
                         currentPlayer.move(currentPlayer.getDiceRoll());
+                    if (currentPlayer.isInJail()){
+                        if (currentPlayer.getDaysInJail() == 5){
+                            currentPlayer.setDaysInJail(0);
+                            currentPlayer.setInJail(false);
+                            currentPlayer.move(currentPlayer.getDiceRoll());
+                        } else {
+                            if (currentPlayer.getBalance() >= 10) currentPlayer.pay(10);
+                            currentPlayer.setDaysInJail(currentPlayer.getDaysInJail() + 1);
+                        }
+                    }
                     break;
                 case 1:
-                    String ans;
                     Lands land = game.getLands()[currentPlayer.getCurrentPosition() - 1];
                     while (true){
                         List<String> acceptedAns = new ArrayList<>(Arrays.asList("Y", "N"));
@@ -524,19 +540,57 @@ public class Monopoly {
                     }
                     break;
                 case 4:
-                    String dest;
                     while (true){
-                        List<String> acceptedPlaces = new ArrayList<>(Arrays.asList("3", "11", "20"));
-                        acceptedPlaces.remove(String.valueOf(currentPlayer.getCurrentPosition()));
-                        dest = askQuestion("Which airport do you wanna go? " + acceptedPlaces);
-                        if (acceptedPlaces.contains(dest)) break;
+                        List<String> acceptedAns = new ArrayList<>(Arrays.asList("3", "11", "20"));
+                        acceptedAns.remove(String.valueOf(currentPlayer.getCurrentPosition()));
+                        ans = askQuestion("Which airport do you wanna go? " + acceptedAns);
+                        if (acceptedAns.contains(ans)) break;
                     }
-                    currentPlayer.fly(Integer.parseInt(dest));
+                    currentPlayer.fly(Integer.parseInt(ans));
                     currentPlayer.setActionsDone(true);
                     break;
+                case 5:
+                    if (currentPlayer.getBalance() >= 50 || currentPlayer.getJailTicket() > 0){
+                        while (true){
+                            List<String> acceptedAns = new ArrayList<>(Arrays.asList("Money", "Card", "Exit"));
+                            acceptedAns.remove(String.valueOf(currentPlayer.getCurrentPosition()));
+                            ans = askQuestion("How do you wanna get out of here? " + acceptedAns);
+                            if (acceptedAns.contains(ans)){
+                                if (ans.equals("Money")){
+                                    if (currentPlayer.getBalance() >= 50){
+                                        currentPlayer.pay(50);
+                                        currentPlayer.setDaysInJail(0);
+                                        currentPlayer.setInJail(false);
+                                        currentPlayer.setActionsDone(true);
+                                        message = "You spent 50 bucks. Go explore the world!";
+                                        msgColor = Jui.Colors.BOLD_BLUE;
+                                        break;
+                                    } else {
+                                        message = "You don't have enough money";
+                                        msgColor = Jui.Colors.BOLD_RED;
+                                    }
+                                } if (ans.equals("Card")) {
+                                    if (currentPlayer.getJailTicket() >= 1){
+                                        currentPlayer.setJailTicket(currentPlayer.getJailTicket() - 1);
+                                        currentPlayer.setDaysInJail(0);
+                                        currentPlayer.setInJail(false);
+                                        currentPlayer.setActionsDone(true);
+                                        message = "You used your jail ticket. Go explore the world!";
+                                        msgColor = Jui.Colors.BOLD_BLUE;
+                                        break;
+                                    } else {
+                                        message = "You don't have enough card";
+                                        msgColor = Jui.Colors.BOLD_RED;
+                                    }
+                                } else break;
+                            }
+                        }
+                    }
+                    break;
                 case 7:
+                    message = " ";
                     game.nextTurn();
-                    actionNumber=0;
+                    actionNumber = 0;
                     if (!game.isChoosingPriorityMode()) currentPlayer.setDiceRoll(-1);
                     currentPlayer.setActionsDone(false);
                     break;
@@ -555,6 +609,7 @@ public class Monopoly {
             updateLeaderboard();
             updateFooter();
             updateActions();
+            updateMessage();
 
             jui.changeCursorPosition(jui.getRows() - 3, (jui.getColumns() - question.length()) / 2);
             jui.customPrint(question, Jui.Colors.BOLD_YELLOW);
@@ -575,7 +630,7 @@ public class Monopoly {
     }
 
     public static void updateMessage() throws IOException {
-        jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - message.length()) / 2);
+        jui.changeCursorPosition(2, (jui.getColumns() - message.length()) / 2);
         jui.customPrint(message, msgColor);
     }
 }
