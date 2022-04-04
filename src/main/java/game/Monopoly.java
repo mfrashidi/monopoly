@@ -464,8 +464,10 @@ public class Monopoly {
                         }
                     } else if (property.equals(Property.Jail)){
                         if (currentPlayer.getDiceRoll() == 1){
-                            currentPlayer.setInJail(false);
-                            actions.add(Actions.RollDice);
+                            if (currentPlayer.isInJail()){
+                                currentPlayer.setInJail(false);
+                                actions.add(Actions.RollDice);
+                            } else actions.add(Actions.Next);
                         } else {
                             if (currentPlayer.isInJail()) actions.add(Actions.Free);
                             actions.add(Actions.Next);
