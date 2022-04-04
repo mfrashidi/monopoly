@@ -314,7 +314,8 @@ public class Monopoly {
         int x = 2;
         int y = ((jui.getRows()) - (game.getPlayers().length + 2)) / 2;
         Player tmpPlayer;
-        Player[] sortedPlayers = game.getPlayers();
+        Player[] sortedPlayers = new Player[game.getPlayers().length];
+        System.arraycopy(game.getPlayers(), 0, sortedPlayers, 0, game.getPlayers().length);
         for (int i = 0; i < sortedPlayers.length - 1; i++){
             for (int j = 0;j < sortedPlayers.length - i - 1; j++){
                 if (sortedPlayers[j].getBalance() < sortedPlayers[j + 1].getBalance()){

@@ -164,7 +164,7 @@ public class Game {
             Player tmpPlayer;
             for (int i = 0; i < players.length - 1; i++) {
                 for (int j = 0; j < players.length - i - 1; j++) {
-                    if (players[j + 1].getDiceRoll() < players[j].getDiceRoll()){
+                    if (players[j + 1].getDiceRoll() > players[j].getDiceRoll()){
                         tmpPlayer = players[j + 1];
                         players[j + 1] = players[j];
                         players[j] = tmpPlayer;
@@ -172,7 +172,7 @@ public class Game {
                 }
             }
             for (Player player: players) player.setDiceRoll(-1);
-            currentPLayer = players[players.length - 1];
+            currentPLayer = players[0];
             this.choosingPriorityMode = false;
         }
     }
