@@ -546,19 +546,22 @@ public class Monopoly {
                     break;
                 case 4:
                     while (true){
-                        List<String> acceptedAns = new ArrayList<>(Arrays.asList("3", "11", "20"));
+                        List<String> acceptedAns = new ArrayList<>(Arrays.asList("3", "11", "20", "Exit"));
                         acceptedAns.remove(String.valueOf(currentPlayer.getCurrentPosition()));
                         ans = askQuestion("Which airport do you wanna go? ($50) " + acceptedAns);
-                        if (acceptedAns.contains(ans)) break;
-                        else {
+                        if (acceptedAns.contains(ans)){
+                            if (ans.equals("Exit")) break;
+                            else {
+                                message = "Passengers, we are landing at Airport " + ans + ". Fasten your seat belt, please!";
+                                msgColor = Jui.Colors.BOLD_CYAN;
+                                currentPlayer.fly(Integer.parseInt(ans));
+                                currentPlayer.setActionsDone(true);
+                            }
+                        } else {
                             message = "Please enter a valid airport";
                             msgColor = Jui.Colors.BOLD_RED;
                         }
                     }
-                    message = "Passengers, we are landing at Airport " + ans + ". Fasten your seat belt, please!";
-                    msgColor = Jui.Colors.BOLD_CYAN;
-                    currentPlayer.fly(Integer.parseInt(ans));
-                    currentPlayer.setActionsDone(true);
                     break;
                 case 5:
                     if (currentPlayer.getBalance() >= 50 || currentPlayer.getJailTicket() > 0){
