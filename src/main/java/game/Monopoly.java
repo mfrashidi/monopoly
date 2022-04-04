@@ -516,12 +516,15 @@ public class Monopoly {
                         currentPlayer.move(currentPlayer.getDiceRoll());
                     if (currentPlayer.isInJail()){
                         if (currentPlayer.getDaysInJail() == 5){
+                            message = "You escaped from the jail. Enjoy your freedom!";
+                            msgColor = Jui.Colors.BOLD_GREEN;
                             currentPlayer.setDaysInJail(0);
                             currentPlayer.setInJail(false);
                             currentPlayer.move(currentPlayer.getDiceRoll());
                         } else {
-                            if (currentPlayer.getBalance() >= 10) currentPlayer.pay(10);
-                            currentPlayer.setDaysInJail(currentPlayer.getDaysInJail() + 1);
+                            if (currentPlayer.getDaysInJail() > 0) message = "Another day at the jail. Another 10 bucks :(";
+                            else message = "Welcome to the jail, my amigo. May you'll learn a few things.";
+                            msgColor = Jui.Colors.BOLD_YELLOW;
                         }
                     }
                     break;
@@ -532,6 +535,8 @@ public class Monopoly {
                         ans = askQuestion("Wanna buy here? $" + land.getCost() + " " + acceptedAns);
                         if (acceptedAns.contains(ans)){
                             if (ans.equals("Y")){
+                                message = "You bought " + land.getName() + ". Take your keys!";
+                                msgColor = Jui.Colors.BOLD_YELLOW;
                                 currentPlayer.buyProperty(land);
                                 currentPlayer.setActionsDone(true);
                                 break;
@@ -543,9 +548,15 @@ public class Monopoly {
                     while (true){
                         List<String> acceptedAns = new ArrayList<>(Arrays.asList("3", "11", "20"));
                         acceptedAns.remove(String.valueOf(currentPlayer.getCurrentPosition()));
-                        ans = askQuestion("Which airport do you wanna go? " + acceptedAns);
+                        ans = askQuestion("Which airport do you wanna go? ($50) " + acceptedAns);
                         if (acceptedAns.contains(ans)) break;
+                        else {
+                            message = "Please enter a valid airport";
+                            msgColor = Jui.Colors.BOLD_RED;
+                        }
                     }
+                    message = "Passengers, we are landing at Airport " + ans + ". Fasten your seat belt, please!";
+                    msgColor = Jui.Colors.BOLD_CYAN;
                     currentPlayer.fly(Integer.parseInt(ans));
                     currentPlayer.setActionsDone(true);
                     break;
@@ -589,6 +600,14 @@ public class Monopoly {
                     break;
                 case 7:
                     message = " ";
+                    if (currentPlayer.isInJail()) {
+                        if (currentPlayer.getBalance() >= 10){
+                            currentPlayer.pay(10);
+                            currentPlayer.setDaysInJail(currentPlayer.getDaysInJail() + 1);
+                        } else {
+//                                TODO
+                        }
+                    }
                     game.nextTurn();
                     actionNumber = 0;
                     if (!game.isChoosingPriorityMode()) currentPlayer.setDiceRoll(-1);
