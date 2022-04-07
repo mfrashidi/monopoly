@@ -504,7 +504,7 @@ public class Monopoly {
                             msgColor = Jui.Colors.BOLD_YELLOW;
                         } else if (card.equals(Cards.TicketToLeaveJail)) {
                             currentPlayer.setJailTicket(currentPlayer.getJailTicket() + 1);
-                            message = "Who dont want free bail?";
+                            message = "Who doesn't want free bail?";
                             msgColor = Jui.Colors.BOLD_GREEN;
                         } else if (card.equals(Cards.TicketToNotPayTax)) {
                             currentPlayer.setTaxTicket(currentPlayer.getTaxTicket() + 1);
