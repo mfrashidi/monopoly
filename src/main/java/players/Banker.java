@@ -4,7 +4,7 @@ import java.util.TreeMap;
 
 public class Banker {
     //a list for deposits
-    private TreeMap<Player,Integer> deposits = new TreeMap<>();
+    private TreeMap<Integer,Integer> deposits = new TreeMap<>();
 
     //swapping wealth for some reason :/
     public boolean swapWealth (Player player1,Player player2){
@@ -21,10 +21,10 @@ public class Banker {
 
     //checking for deposit and pay it
     public boolean checkDeposit(Player player){
-        if (deposits.containsKey(player)){
-            player.getPaid(deposits.get(player));
+        if (deposits.containsKey(player.getId())){
+            player.getPaid(deposits.get(player.getId()) * 2);
             player.setMoneyDeposited(false);
-            deposits.remove(player);
+            deposits.remove(player.getId());
             return true;
         }
         return false;
@@ -33,7 +33,7 @@ public class Banker {
     //adding deposit for someone
     public void addDeposit(Player player){
         player.setMoneyDeposited(true);
-        deposits.put(player,player.getBalance()/2);
+        deposits.put(player.getId(), player.getBalance()/2);
         player.pay(player.getBalance()/2);
     }
 }

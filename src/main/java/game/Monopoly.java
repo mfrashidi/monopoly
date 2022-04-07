@@ -479,6 +479,11 @@ public class Monopoly {
                             actions.add(Actions.Next);
                         }
                     } else if (property.equals(Property.Bank)){
+                        if (currentPlayer.isMoneyDeposited()){
+                            game.getBanker().checkDeposit(currentPlayer);
+                            message = "You got your money with its profit. Go get ice cream for yourself!";
+                            msgColor = Jui.Colors.BOLD_GREEN;
+                        }
                         actions.add(Actions.Invest);
                         actions.add(Actions.Next);
                     } else if (property.equals(Property.RandomCard)){
@@ -682,6 +687,22 @@ public class Monopoly {
                                     msgColor = Jui.Colors.BOLD_RED;
                                 }
                             } else break;
+                        }
+                    }
+                    break;
+                case 6:
+                    while (true){
+                        List<String> acceptedAns = new ArrayList<>(Arrays.asList("Invest", "Exit"));
+                        acceptedAns.remove(String.valueOf(currentPlayer.getCurrentPosition()));
+                        ans = askQuestion("Do you want to invest half of your money ($" + (currentPlayer.getBalance() / 2) + ") in the bank? " + acceptedAns);
+                        if (acceptedAns.contains(ans)){
+                            if (ans.equals("Invest")){
+                                game.getBanker().addDeposit(currentPlayer);
+                                message = "Your money is safe with us!";
+                                msgColor = Jui.Colors.BOLD_BLUE;
+                                currentPlayer.setActionsDone(true);
+                            }
+                            break;
                         }
                     }
                     break;

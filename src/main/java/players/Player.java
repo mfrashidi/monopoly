@@ -226,4 +226,7 @@ public class Player {
         this.daysInJail = daysInJail;
     }
 
+    public int getId() {
+        return id;
+    }
 }
