@@ -4,10 +4,7 @@ import lands.EmptyLands;
 import lands.Lands;
 import lands.LandsWithRent;
 import players.Player;
-import utilities.Actions;
-import utilities.Jui;
-import utilities.Property;
-import utilities.Structures;
+import utilities.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -487,6 +484,48 @@ public class Monopoly {
                         actions.add(Actions.Invest);
                         actions.add(Actions.Next);
                     } else if (property.equals(Property.RandomCard)){
+                        Cards card = game.giveCard();
+                        if (card.equals(Cards.DollarGift)){
+                            currentPlayer.getPaid(200);
+                            message = "You won a $200 ticket. Have Fun!";
+                            msgColor = Jui.Colors.BOLD_GREEN;
+                        } else if (card.equals(Cards.GoToJail)) {
+                            currentPlayer.setInJail(true);
+                            currentPlayer.setCurrentPosition(13);
+                            message = "Welcome to the jail, my amigo. May you'll learn a few things.";
+                            msgColor = Jui.Colors.BOLD_YELLOW;
+                        } else if (card.equals(Cards.TenPercentPenalty)) {
+                            currentPlayer.pay((int) (currentPlayer.getBalance() * 0.1));
+                            message = "Bank wants 10 percent of your money man";
+                            msgColor = Jui.Colors.BOLD_RED;
+                        } else if (card.equals(Cards.ThreePlaceGoForward)) {
+                            currentPlayer.setCurrentPosition(3);
+                            message = "How do you get here?";
+                            msgColor = Jui.Colors.BOLD_YELLOW;
+                        } else if (card.equals(Cards.TicketToLeaveJail)) {
+                            currentPlayer.setJailTicket(currentPlayer.getJailTicket() + 1);
+                            message = "Who dont want free bail?";
+                            msgColor = Jui.Colors.BOLD_GREEN;
+                        } else if (card.equals(Cards.TicketToNotPayTax)) {
+                            currentPlayer.setTaxTicket(currentPlayer.getTaxTicket() + 1);
+                            message = "You got a free tax ticket";
+                            msgColor = Jui.Colors.BOLD_GREEN;
+                        } else {
+                            if (currentPlayer.getBalance() >= game.getPlayers().length * 10) {
+                                for (Player player: game.getPlayers()){
+                                    if (!player.equals(currentPlayer)){
+                                        player.getPaid(10);
+                                        currentPlayer.pay(10);
+                                    }
+                                }
+                                message = "You pay each player 10 bucks. Sorry!";
+                                msgColor = Jui.Colors.BOLD_RED;
+                            } else {
+                                currentPlayer.pay(currentPlayer.getBalance());
+                                currentPlayer.setGotBroke(true);
+                            }
+                        }
+                        currentPlayer.setActionsDone(true);
                         actions.add(Actions.Next);
                     }
                 }
@@ -662,6 +701,7 @@ public class Monopoly {
                         if (acceptedAns.contains(ans)){
                             if (ans.equals("Money")){
                                 if (currentPlayer.getBalance() >= 50){
+                                    if (currentPlayer.getDaysInJail() > 0 ) currentPlayer.move(currentPlayer.getDiceRoll());
                                     currentPlayer.pay(50);
                                     currentPlayer.setDaysInJail(0);
                                     currentPlayer.setInJail(false);
@@ -675,6 +715,7 @@ public class Monopoly {
                                 }
                             } if (ans.equals("Card")) {
                                 if (currentPlayer.getJailTicket() >= 1){
+                                    if (currentPlayer.getDaysInJail() > 0 ) currentPlayer.move(currentPlayer.getDiceRoll());
                                     currentPlayer.setJailTicket(currentPlayer.getJailTicket() - 1);
                                     currentPlayer.setDaysInJail(0);
                                     currentPlayer.setInJail(false);
