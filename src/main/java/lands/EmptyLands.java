@@ -13,4 +13,8 @@ public class EmptyLands extends LandsWithRent {
         super(owner, type, cost, color, name, icon);
         super.setRent(50);
     }
+
+    public Vector<Structures> getStructures() {
+        return structures;
+    }
 }

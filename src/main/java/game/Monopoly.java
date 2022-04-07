@@ -7,12 +7,10 @@ import players.Player;
 import utilities.Actions;
 import utilities.Jui;
 import utilities.Property;
+import utilities.Structures;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Monopoly {
     private static Jui jui;
@@ -381,7 +379,15 @@ public class Monopoly {
         System.out.print("🏠 Properties: ");
         jui.changeColor(Jui.Colors.YELLOW);
         String properties = "";
-        for (Lands land: game.getCurrentPLayer().getOwnLands()) properties += land.getName() + ", ";
+        for (Lands land: game.getCurrentPLayer().getOwnLands()){
+            properties += land.getName();
+            if (land instanceof EmptyLands){
+                int numberOfStructures = ((EmptyLands) land).getStructures().size();
+                if (numberOfStructures == 5) properties += " (Hotel)";
+                else properties += " (" + numberOfStructures + " Regular)";
+            }
+            properties += ", ";
+        }
         if (properties.length() == 0) System.out.print("None");
         else System.out.print("[" + properties.substring(0, properties.length() - 2) + "]");
         jui.changeColor(Jui.Colors.DEFAULT);
@@ -475,6 +481,8 @@ public class Monopoly {
                     } else if (property.equals(Property.Bank)){
                         actions.add(Actions.Invest);
                         actions.add(Actions.Next);
+                    } else if (property.equals(Property.RandomCard)){
+                        actions.add(Actions.Next);
                     }
                 }
             }
@@ -546,6 +554,81 @@ public class Monopoly {
                         }
                     }
                     break;
+                case 2:
+                    EmptyLands emptyLand = (EmptyLands) game.getLands()[currentPlayer.getCurrentPosition() - 1];
+                    while (true){
+                        List<String> acceptedAns = new ArrayList<>(Arrays.asList("Regular", "Hotel", "Exit"));
+                        ans = askQuestion("What kind of building do you want? (Regular: $150, Hotel: $100) " + acceptedAns);
+                        if (acceptedAns.contains(ans)){
+                            if (ans.equals("Regular")){
+                                int minBuildings = -1;
+                                Vector<Lands> playerLands = currentPlayer.getOwnLands();
+                                for (Lands ownLand: playerLands) {
+                                    if (ownLand instanceof EmptyLands) {
+                                        if (minBuildings == -1){
+                                            minBuildings = ((EmptyLands) ownLand).getStructures().size();
+                                            continue;
+                                        }
+                                        if (((EmptyLands) ownLand).getStructures().size() < minBuildings)
+                                            minBuildings = ((EmptyLands) ownLand).getStructures().size();
+                                    }
+                                }
+                                if (emptyLand.getStructures().size() == minBuildings){
+                                    if (emptyLand.getStructures().size() > 3){
+                                        message = "You have enough regular buildings. Go for a hotel!";
+                                        msgColor = Jui.Colors.BOLD_YELLOW;
+                                    } else {
+                                        if (currentPlayer.getBalance() >= 150){
+                                            emptyLand.getStructures().add(Structures.Buildings);
+                                            currentPlayer.pay(150);
+                                            emptyLand.setRent(emptyLand.getRent() + 100);
+                                            message = "Another building in your property my friend.";
+                                            msgColor = Jui.Colors.BOLD_YELLOW;
+                                            currentPlayer.setActionsDone(true);
+                                            break;
+                                        } else {
+                                            message = "You don't have enough money :(";
+                                            msgColor = Jui.Colors.BOLD_RED;
+                                        }
+                                    }
+                                } else {
+                                    message = "All of your properties should have " + (minBuildings + 1) + " buildings";
+                                    msgColor = Jui.Colors.BOLD_RED;
+                                }
+                            } else if (ans.equals("Hotel")){
+                                boolean canBuild = true;
+                                Vector<Lands> playerLands = currentPlayer.getOwnLands();
+                                for (Lands ownLand: playerLands) {
+                                    if (ownLand instanceof EmptyLands) {
+                                        if (((EmptyLands) ownLand).getStructures().size() < 4) {
+                                            canBuild = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (canBuild) {
+                                    if (currentPlayer.getBalance() >= 100){
+                                        emptyLand.getStructures().add(Structures.Buildings);
+                                        currentPlayer.pay(100);
+                                        emptyLand.setRent(600);
+                                        message = "You have a hotel in this area. Noice!";
+                                        msgColor = Jui.Colors.BOLD_YELLOW;
+                                        currentPlayer.setActionsDone(true);
+                                        break;
+                                    } else {
+                                        message = "You don't have enough money :(";
+                                        msgColor = Jui.Colors.BOLD_RED;
+                                    }
+
+                                } else {
+                                    message = "All of your properties should have 4 buildings";
+                                    msgColor = Jui.Colors.BOLD_RED;
+                                }
+
+                            } else break;
+                        }
+                    }
+                    break;
                 case 4:
                     while (true){
                         List<String> acceptedAns = new ArrayList<>(Arrays.asList("3", "11", "20", "Exit"));
@@ -558,6 +641,7 @@ public class Monopoly {
                                 msgColor = Jui.Colors.BOLD_CYAN;
                                 currentPlayer.fly(Integer.parseInt(ans));
                                 currentPlayer.setActionsDone(true);
+                                break;
                             }
                         } else {
                             message = "Please enter a valid airport";
@@ -566,40 +650,38 @@ public class Monopoly {
                     }
                     break;
                 case 5:
-                    if (currentPlayer.getBalance() >= 50 || currentPlayer.getJailTicket() > 0){
-                        while (true){
-                            List<String> acceptedAns = new ArrayList<>(Arrays.asList("Money", "Card", "Exit"));
-                            acceptedAns.remove(String.valueOf(currentPlayer.getCurrentPosition()));
-                            ans = askQuestion("How do you wanna get out of here? " + acceptedAns);
-                            if (acceptedAns.contains(ans)){
-                                if (ans.equals("Money")){
-                                    if (currentPlayer.getBalance() >= 50){
-                                        currentPlayer.pay(50);
-                                        currentPlayer.setDaysInJail(0);
-                                        currentPlayer.setInJail(false);
-                                        currentPlayer.setActionsDone(true);
-                                        message = "You spent 50 bucks. Go explore the world!";
-                                        msgColor = Jui.Colors.BOLD_BLUE;
-                                        break;
-                                    } else {
-                                        message = "You don't have enough money";
-                                        msgColor = Jui.Colors.BOLD_RED;
-                                    }
-                                } if (ans.equals("Card")) {
-                                    if (currentPlayer.getJailTicket() >= 1){
-                                        currentPlayer.setJailTicket(currentPlayer.getJailTicket() - 1);
-                                        currentPlayer.setDaysInJail(0);
-                                        currentPlayer.setInJail(false);
-                                        currentPlayer.setActionsDone(true);
-                                        message = "You used your jail ticket. Go explore the world!";
-                                        msgColor = Jui.Colors.BOLD_BLUE;
-                                        break;
-                                    } else {
-                                        message = "You don't have enough card";
-                                        msgColor = Jui.Colors.BOLD_RED;
-                                    }
-                                } else break;
-                            }
+                    while (true){
+                        List<String> acceptedAns = new ArrayList<>(Arrays.asList("Money", "Card", "Exit"));
+                        acceptedAns.remove(String.valueOf(currentPlayer.getCurrentPosition()));
+                        ans = askQuestion("How do you wanna get out of here? " + acceptedAns);
+                        if (acceptedAns.contains(ans)){
+                            if (ans.equals("Money")){
+                                if (currentPlayer.getBalance() >= 50){
+                                    currentPlayer.pay(50);
+                                    currentPlayer.setDaysInJail(0);
+                                    currentPlayer.setInJail(false);
+                                    currentPlayer.setActionsDone(true);
+                                    message = "You spent 50 bucks. Go explore the world!";
+                                    msgColor = Jui.Colors.BOLD_BLUE;
+                                    break;
+                                } else {
+                                    message = "You don't have enough money";
+                                    msgColor = Jui.Colors.BOLD_RED;
+                                }
+                            } if (ans.equals("Card")) {
+                                if (currentPlayer.getJailTicket() >= 1){
+                                    currentPlayer.setJailTicket(currentPlayer.getJailTicket() - 1);
+                                    currentPlayer.setDaysInJail(0);
+                                    currentPlayer.setInJail(false);
+                                    currentPlayer.setActionsDone(true);
+                                    message = "You used your jail ticket. Go explore the world!";
+                                    msgColor = Jui.Colors.BOLD_BLUE;
+                                    break;
+                                } else {
+                                    message = "You don't have enough card";
+                                    msgColor = Jui.Colors.BOLD_RED;
+                                }
+                            } else break;
                         }
                     }
                     break;
