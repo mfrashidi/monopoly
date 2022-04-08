@@ -21,7 +21,7 @@ public class Monopoly {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         jui = new Jui();
-//        printPoster();
+        printPoster();
         while (true){
             jui.clearScreen();
             printTitle();
