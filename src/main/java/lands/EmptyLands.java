@@ -17,4 +17,8 @@ public class EmptyLands extends LandsWithRent {
     public Vector<Structures> getStructures() {
         return structures;
     }
+
+    public void setStructures(Vector<Structures> structures) {
+        this.structures = structures;
+    }
 }

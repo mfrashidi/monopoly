@@ -154,6 +154,17 @@ public class Player {
         return false;
     }
 
+    public void sell (Lands land){
+        land.setOwner(null);
+        ownLands.remove(land);
+        if (land instanceof EmptyLands emptyLand){
+            emptyLand.setStructures(new Vector<>());
+            emptyLand.setRent(50);
+        } else if (land instanceof LandsWithRent landWithRent) {
+            landWithRent.setRent(25);
+        }
+    }
+
     //paying something
     public boolean pay(int cost){
         if (this.balance>=cost){

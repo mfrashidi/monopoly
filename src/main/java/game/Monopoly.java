@@ -409,6 +409,7 @@ public class Monopoly {
                 if (currentPlayer.isActionsDone()){
                     actions.add(Actions.Next);
                 } else {
+                    if (currentPlayer.getOwnLands().size() > 0) actions.add(Actions.Sell);
                     if (currentPlayer.getDiceRoll() == 6 && !currentPlayer.isInJail()) actions.add(Actions.RollDice);
                     Property property = game.getLands()[currentPlayer.getCurrentPosition() - 1].getType();
                     if (property.equals(Property.Parking)) currentPlayer.setActionsDone(true);
@@ -673,6 +674,9 @@ public class Monopoly {
                         }
                     }
                     break;
+                case 3:
+                    sellProperties();
+                    break;
                 case 4:
                     while (true){
                         List<String> acceptedAns = new ArrayList<>(Arrays.asList("3", "11", "20", "Exit"));
@@ -696,7 +700,6 @@ public class Monopoly {
                 case 5:
                     while (true){
                         List<String> acceptedAns = new ArrayList<>(Arrays.asList("Money", "Card", "Exit"));
-                        acceptedAns.remove(String.valueOf(currentPlayer.getCurrentPosition()));
                         ans = askQuestion("How do you wanna get out of here? " + acceptedAns);
                         if (acceptedAns.contains(ans)){
                             if (ans.equals("Money")){
@@ -734,7 +737,6 @@ public class Monopoly {
                 case 6:
                     while (true){
                         List<String> acceptedAns = new ArrayList<>(Arrays.asList("Invest", "Exit"));
-                        acceptedAns.remove(String.valueOf(currentPlayer.getCurrentPosition()));
                         ans = askQuestion("Do you want to invest half of your money ($" + (currentPlayer.getBalance() / 2) + ") in the bank? " + acceptedAns);
                         if (acceptedAns.contains(ans)){
                             if (ans.equals("Invest")){
@@ -790,7 +792,7 @@ public class Monopoly {
             if (letter == 127) {
                 if (answer.length() > 0) answer = answer.substring(0, answer.length() - 1);
             }
-            else if ((letter >=65 && letter <= 90) || (letter >=97 && letter <= 122) || (letter >=48 && letter <= 57)) answer += (char) letter;
+            else if ((letter >=65 && letter <= 90) || (letter >=97 && letter <= 122) || (letter >=48 && letter <= 57) || letter == 32) answer += (char) letter;
             else if (letter == 13) break;
         }
 
@@ -800,5 +802,109 @@ public class Monopoly {
     public static void updateMessage() throws IOException {
         jui.changeCursorPosition(2, (jui.getColumns() - message.length()) / 2);
         jui.customPrint(message, msgColor);
+    }
+
+    public static void sellProperties() throws IOException {
+        Player currentPlayer = game.getCurrentPLayer();
+        String ans;
+        TreeMap<String,Integer> properties = new TreeMap<>();
+        for (Lands land: currentPlayer.getOwnLands()) {
+            if (land instanceof LandsWithRent) {
+                LandsWithRent landsWithRent = (LandsWithRent) land;
+                if (land instanceof EmptyLands){
+                    EmptyLands emptyLand = (EmptyLands) landsWithRent;
+                    int numberOfStructures = emptyLand.getStructures().size();
+                    properties.put(land.getName(), 50 + ((numberOfStructures < 5) ? numberOfStructures * 75 : 350));
+                } else {
+                    properties.put(land.getName(), 100);
+                }
+            }
+        }
+        while (true) {
+            List<String> acceptedAns = new ArrayList<>();
+            String propertiesWithValues = "[";
+            for (Map.Entry<String,Integer> entry : properties.entrySet()) {
+                propertiesWithValues += entry.getKey() + "=$" + entry.getValue() + ", ";
+                acceptedAns.add(entry.getKey());
+            }
+            acceptedAns.add("Exit");
+            propertiesWithValues = propertiesWithValues.substring(0, propertiesWithValues.length() - 2) + ", Exit]";
+            message = propertiesWithValues;
+            msgColor = Jui.Colors.BOLD_YELLOW;
+            ans = askQuestion("Which property do you wanna sell? (Just type the name of it)");
+            if (acceptedAns.contains(ans)){
+                if (ans.equals("Exit")){
+                    message = "";
+                    break;
+                }
+                int value = properties.get(ans);
+                currentPlayer.getPaid(value);
+                Lands land = null;
+                for (Lands gameLand: game.getLands()) {
+                    if (gameLand.getName().equals(ans)) {
+                        land = gameLand;
+                        break;
+                    }
+                }
+                assert land != null;
+                currentPlayer.sell(land);
+                message = "You sold " + ans + " with the value of " + value;
+                msgColor = Jui.Colors.BOLD_YELLOW;
+                break;
+            }
+        }
+    }
+
+    public static void sellProperties(int amount) throws IOException {
+        int sold = 0;
+        Player currentPlayer = game.getCurrentPLayer();
+        String ans;
+        TreeMap<String,Integer> properties = new TreeMap<>();
+        for (Lands land: currentPlayer.getOwnLands()) {
+            if (land instanceof LandsWithRent landsWithRent) {
+                if (land instanceof EmptyLands){
+                    EmptyLands emptyLand = (EmptyLands) landsWithRent;
+                    int numberOfStructures = emptyLand.getStructures().size();
+                    properties.put(land.getName(), 50 + ((numberOfStructures < 5) ? numberOfStructures * 75 : 350));
+                } else {
+                    properties.put(land.getName(), 100);
+                }
+            }
+        }
+        while (true) {
+            List<String> acceptedAns = new ArrayList<>();
+            String propertiesWithValues = "[";
+            for (Map.Entry<String,Integer> entry : properties.entrySet()) {
+                propertiesWithValues += entry.getKey() + "=$" + entry.getValue() + ", ";
+                acceptedAns.add(entry.getKey());
+            }
+            propertiesWithValues = propertiesWithValues.substring(0, propertiesWithValues.length() - 2);
+            if (sold >= amount) {
+                acceptedAns.add("Exit");
+                propertiesWithValues += ", Exit]";
+            }
+            message = propertiesWithValues;
+            msgColor = Jui.Colors.BOLD_YELLOW;
+            ans = askQuestion("Which property do you wanna sell? (Just type the name of it)");
+            if (acceptedAns.contains(ans)){
+                if (ans.equals("Exit")){
+                    message = "";
+                    break;
+                }
+                int value = properties.get(ans);
+                currentPlayer.getPaid(value);
+                Lands land = null;
+                for (Lands gameLand: game.getLands()) {
+                    if (gameLand.getName().equals(ans)) {
+                        land = gameLand;
+                        break;
+                    }
+                }
+                assert land != null;
+                currentPlayer.sell(land);
+                message = "You sold " + ans + " with the value of " + value;
+                msgColor = Jui.Colors.BOLD_YELLOW;
+            }
+        }
     }
 }
