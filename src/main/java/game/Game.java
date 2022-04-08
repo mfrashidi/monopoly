@@ -187,4 +187,17 @@ public class Game {
         }
     }
 
+    public Player getWinner(){
+        int nonBrokens = 0;
+        Player winner = null;
+        for (Player player: players) {
+            if (!player.isGotBroke()) {
+                winner = player;
+                nonBrokens++;
+            }
+        }
+        if (nonBrokens == 1) return winner;
+        else return null;
+    }
+
 }

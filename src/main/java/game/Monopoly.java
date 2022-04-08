@@ -17,6 +17,7 @@ public class Monopoly {
     private static Game game;
     private static String message = "Welcome to the Monopoly!";
     private static Jui.Colors msgColor = Jui.Colors.BOLD_YELLOW;
+    private static Player winner;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         jui = new Jui();
@@ -201,6 +202,11 @@ public class Monopoly {
         while (true){
             jui.clearScreen();
             updateActions();
+            if (winner != null){
+                players = new Player[0];
+                game = null;
+                break;
+            }
             printTable();
             updateHeader();
             updateLeaderboard();
@@ -757,10 +763,22 @@ public class Monopoly {
                             sellProperties(10);
                         }
                     }
-                    game.nextTurn();
-                    actionNumber = 0;
-                    if (!game.isChoosingPriorityMode()) currentPlayer.setDiceRoll(-1);
-                    currentPlayer.setActionsDone(false);
+                    Player tmpWinner = game.getWinner();
+                    if (tmpWinner == null){
+                        game.nextTurn();
+                        actionNumber = 0;
+                        if (!game.isChoosingPriorityMode()) currentPlayer.setDiceRoll(-1);
+                        currentPlayer.setActionsDone(false);
+                    } else {
+                        winner = tmpWinner;
+                        jui.clearScreen();
+                        jui.customPrint(winner.getName() + " won the game!", Jui.Position.CENTER, Jui.Colors.BOLD_GREEN);
+                        String exitMsg = "Press any button to exit";
+                        jui.changeCursorPosition(jui.getRows() - 2, (jui.getColumns() - exitMsg.length()) / 2);
+                        System.out.println(exitMsg);
+                        jui.changeCursorPosition(0, 0);
+                        jui.getInput();
+                    }
                     break;
             }
         } else jui.playSound();
@@ -776,7 +794,6 @@ public class Monopoly {
             updateHeader();
             updateLeaderboard();
             updateFooter();
-//            updateActions();
             updateMessage();
 
             jui.changeCursorPosition(jui.getRows() - 3, (jui.getColumns() - question.length()) / 2);
@@ -903,7 +920,7 @@ public class Monopoly {
                     currentPlayer.pay(currentPlayer.getBalance());
                     currentPlayer.setGotBroke(true);
                     currentPlayer.setActionsDone(true);
-                    message = "We had a good time " + currentPlayer.getName() + ". Goodbye!";
+                    message = "We had good times, " + currentPlayer.getName() + ". Rest in peace!";
                     msgColor = Jui.Colors.BOLD_RED;
                     break;
                 } else {
