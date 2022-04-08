@@ -96,11 +96,21 @@ public class Game {
 
     //next player to play
     public void nextTurn(){
-        for(int i=0;i<players.length;i++){
+        int index = -1;
+        for (int i=0;i<players.length;i++){
             if (players[i].equals(currentPLayer)){
-                if (i == players.length - 1) currentPLayer = players[0];
-                else currentPLayer=players[i+1];
+                if (i == players.length - 1) index = 0;
+                else index = i + 1;
                 break;
+            }
+        }
+        while (true) {
+            if (!players[index].isGotBroke()) {
+                currentPLayer = players[index];
+                break;
+            } else {
+                index++;
+                if (index == players.length) index = 0;
             }
         }
         setPriorities();

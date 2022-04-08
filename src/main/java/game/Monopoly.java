@@ -330,12 +330,14 @@ public class Monopoly {
             jui.changeCursorPosition(y, x);
             jui.changeColor(Jui.Colors.BOLD_RED);
             System.out.print((i + 1) + ") ");
+            if (player.isGotBroke()) jui.strikethrough();
             jui.changeColor(player.getColor());
             System.out.print(player.getName());
             jui.changeColor(((player.getBalance() > 0) ? Jui.Colors.GREEN : Jui.Colors.RED));
-            jui.italic();
+            if (!player.isGotBroke()) jui.italic();
             System.out.print(" $" + player.getBalance());
-            jui.italic();
+            if (!player.isGotBroke()) jui.italic();
+            if (player.isGotBroke()) jui.strikethrough();
             y++;
         }
     }
@@ -424,8 +426,7 @@ public class Monopoly {
                         if (currentPlayer.getBalance() >= 100){
                             currentPlayer.pay(100);
                         } else {
-                            currentPlayer.pay(currentPlayer.getBalance());
-                            currentPlayer.setGotBroke(true);
+                            sellProperties(100);
                         }
                         currentPlayer.setActionsDone(true);
                     } else if (property.equals(Property.Cinema)) {
@@ -440,8 +441,7 @@ public class Monopoly {
                                 owner.getPaid(land.getRent());
                                 currentPlayer.setActionsDone(true);
                             } else {
-                                currentPlayer.pay(currentPlayer.getBalance());
-                                currentPlayer.setGotBroke(true);
+                                sellProperties(land.getRent());
                             }
                         }
                     } else if (property.equals(Property.Award)){
@@ -462,8 +462,7 @@ public class Monopoly {
                                 owner.getPaid(land.getRent());
                                 currentPlayer.setActionsDone(true);
                             } else {
-                                currentPlayer.pay(currentPlayer.getBalance());
-                                currentPlayer.setGotBroke(true);
+                                sellProperties(land.getRent());
                             }
                         }
                     } else if (property.equals(Property.Jail)){
@@ -522,8 +521,7 @@ public class Monopoly {
                                 message = "You pay each player 10 bucks. Sorry!";
                                 msgColor = Jui.Colors.BOLD_RED;
                             } else {
-                                currentPlayer.pay(currentPlayer.getBalance());
-                                currentPlayer.setGotBroke(true);
+                                sellProperties(game.getPlayers().length * 10);
                             }
                         }
                         currentPlayer.setActionsDone(true);
@@ -756,7 +754,7 @@ public class Monopoly {
                             currentPlayer.pay(10);
                             currentPlayer.setDaysInJail(currentPlayer.getDaysInJail() + 1);
                         } else {
-//                                TODO
+                            sellProperties(10);
                         }
                     }
                     game.nextTurn();
@@ -778,7 +776,7 @@ public class Monopoly {
             updateHeader();
             updateLeaderboard();
             updateFooter();
-            updateActions();
+//            updateActions();
             updateMessage();
 
             jui.changeCursorPosition(jui.getRows() - 3, (jui.getColumns() - question.length()) / 2);
@@ -873,37 +871,56 @@ public class Monopoly {
         }
         while (true) {
             List<String> acceptedAns = new ArrayList<>();
-            String propertiesWithValues = "[";
-            for (Map.Entry<String,Integer> entry : properties.entrySet()) {
-                propertiesWithValues += entry.getKey() + "=$" + entry.getValue() + ", ";
-                acceptedAns.add(entry.getKey());
+            String propertiesWithValues = "";
+            if (properties.size() > 0) {
+                propertiesWithValues += "[";
+                for (Map.Entry<String,Integer> entry : properties.entrySet()) {
+                    propertiesWithValues += entry.getKey() + "=$" + entry.getValue() + ", ";
+                    acceptedAns.add(entry.getKey());
+                }
+                propertiesWithValues = propertiesWithValues.substring(0, propertiesWithValues.length() - 2);
+                if (sold >= amount) {
+                    acceptedAns.add("Exit");
+                    propertiesWithValues += ", Exit]";
+                }
             }
-            propertiesWithValues = propertiesWithValues.substring(0, propertiesWithValues.length() - 2);
-            if (sold >= amount) {
-                acceptedAns.add("Exit");
-                propertiesWithValues += ", Exit]";
+            if (sold < amount) {
+                message = "You are at a bad position man. You need $" + amount + " to save yourself. If you can't afford it just type 'Broken' and say goodbye!\n" + propertiesWithValues;
+                acceptedAns.add("Broken");
+            } else {
+                message = "You afford the money. You can go now\n" + propertiesWithValues;
             }
-            message = propertiesWithValues;
             msgColor = Jui.Colors.BOLD_YELLOW;
             ans = askQuestion("Which property do you wanna sell? (Just type the name of it)");
             if (acceptedAns.contains(ans)){
                 if (ans.equals("Exit")){
-                    message = "";
+                    message = "You saved yourself but, at what cost?";
+                    msgColor = Jui.Colors.BOLD_GREEN;
                     break;
-                }
-                int value = properties.get(ans);
-                currentPlayer.getPaid(value);
-                Lands land = null;
-                for (Lands gameLand: game.getLands()) {
-                    if (gameLand.getName().equals(ans)) {
-                        land = gameLand;
-                        break;
+                } else if (ans.equals("Broken")) {
+                    for (Lands land: currentPlayer.getOwnLands())
+                        currentPlayer.sell(land);
+                    currentPlayer.pay(currentPlayer.getBalance());
+                    currentPlayer.setGotBroke(true);
+                    currentPlayer.setActionsDone(true);
+                    message = "We had a good time " + currentPlayer.getName() + ". Goodbye!";
+                    msgColor = Jui.Colors.BOLD_RED;
+                    break;
+                } else {
+                    int value = properties.get(ans);
+                    currentPlayer.getPaid(value);
+                    Lands land = null;
+                    for (Lands gameLand: game.getLands()) {
+                        if (gameLand.getName().equals(ans)) {
+                            land = gameLand;
+                            break;
+                        }
                     }
+                    assert land != null;
+                    currentPlayer.sell(land);
+                    message = "You sold " + ans + " with the value of " + value;
+                    msgColor = Jui.Colors.BOLD_YELLOW;
                 }
-                assert land != null;
-                currentPlayer.sell(land);
-                message = "You sold " + ans + " with the value of " + value;
-                msgColor = Jui.Colors.BOLD_YELLOW;
             }
         }
     }
