@@ -1,25 +1,35 @@
 package players;
 
+import lands.LandsWithRent;
+import utilities.*;
 import lands.EmptyLands;
 import lands.Lands;
-import utilities.Actions;
-import utilities.Structures;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Player {
 
-    private int id, balance = 1500, currentPosition=1, taxTicket=0, jailTicket=0;
+    private int id, balance = 100, currentPosition=1, taxTicket=0, jailTicket=0, diceRoll = -1;
     private String name;
     private boolean isTheirTurn= false , isMoneyDeposited=false, isInJail= false, gotBroke=false;
     //lands that player owns
     private Vector<Lands> ownLands = new Vector<Lands>();
-    private Actions[] actions;
+    private List<Actions> actions;
+    private Jui.Colors color;
+    private boolean actionsDone;
+    private int daysInJail = 0;
 
-    public Player(int id, String name) {
+    public Player(int id, String name, Jui.Colors color) {
         this.id = id;
         this.name = name;
-        this.actions = new Actions[0];
+        this.actions = new ArrayList<>();
+        this.color = color;
+        this.actionsDone = false;
+    }
+
+    public Jui.Colors getColor() {
+        return color;
     }
 
     public boolean isGotBroke() {
@@ -125,9 +135,34 @@ public class Player {
             land.setOwner(this);
             balance-=land.getCost();
             ownLands.add(land);
+
+            if (land.getType().equals(Property.Cinema)){
+                int numberOfCinemas = 0;
+                for (Lands playerLand: ownLands){
+                    if (playerLand.getType().equals(Property.Cinema)) numberOfCinemas++;
+                }
+                int rent = (int) (25 * Math.pow(2, numberOfCinemas - 1));
+                for (Lands playerLand: ownLands){
+                    if (playerLand.getType().equals(Property.Cinema)){
+                        LandsWithRent cinema = (LandsWithRent) playerLand;
+                        cinema.setRent(rent);
+                    }
+                }
+            }
             return true;
         }
         return false;
+    }
+
+    public void sell (Lands land){
+        land.setOwner(null);
+        ownLands.remove(land);
+        if (land instanceof EmptyLands emptyLand){
+            emptyLand.setStructures(new Vector<>());
+            emptyLand.setRent(50);
+        } else if (land instanceof LandsWithRent landWithRent) {
+            landWithRent.setRent(25);
+        }
     }
 
     //paying something
@@ -148,11 +183,61 @@ public class Player {
         return this.id==player.id;
     }
 
-    public Actions[] getActions(){
+    public String getName() {
+        return name;
+    }
+
+    public List<Actions> getActions(){
         return this.actions;
     }
 
-    public void updateActions(){
+    public void setActions(List<Actions> actions) {
+        this.actions = actions;
+    }
 
+    public int getDiceRoll() {
+        return diceRoll;
+    }
+
+    public void diceRoll() throws IOException {
+        int dice = Dice.roll(true);
+        if (dice == 6 && this.diceRoll == 6){
+            isInJail = true;
+            currentPosition = 13;
+        }
+        this.diceRoll = dice;
+    }
+
+    public void setDiceRoll(int i) {
+        this.diceRoll = i;
+    }
+
+    public boolean isActionsDone() {
+        return actionsDone;
+    }
+
+    public void setActionsDone(boolean actionsDone) {
+        this.actionsDone = actionsDone;
+    }
+
+    public void fly(int dest) {
+        this.currentPosition = dest;
+        this.balance -= 50;
+    }
+
+    public Vector<Lands> getOwnLands() {
+        return ownLands;
+    }
+
+    public int getDaysInJail() {
+        return daysInJail;
+    }
+
+    public void setDaysInJail(int daysInJail) {
+        this.daysInJail = daysInJail;
+    }
+
+    public int getId() {
+        return id;
     }
 }

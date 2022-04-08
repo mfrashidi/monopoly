@@ -1,16 +1,18 @@
+package utilities;
+
 import java.io.*;
 import java.util.Scanner;
 
 public final class Jui {
     private int ROWS = -1;
     private int COLUMNS = -1;
-    private static boolean isBold = false;
-    private static boolean isUnderlined = false;
-    private static boolean isStrikethrough = false;
-    private static boolean isItalic = false;
+    private boolean isBold = false;
+    private boolean isUnderlined = false;
+    private boolean isStrikethrough = false;
+    private boolean isItalic = false;
 
 
-    enum Colors{
+    public enum Colors{
         DEFAULT,
         BLACK, BOLD_BLACK,
         RED, BOLD_RED,
@@ -23,7 +25,7 @@ public final class Jui {
         WHITE, BOLD_WHITE
     }
 
-    enum Position{
+    public enum Position{
         UPPER_LEFT, UPPER_CENTER, UPPER_RIGHT,
         CENTER_LEFT, CENTER, CENTER_RIGHT,
         LOWER_LEFT, LOWER_CENTER, LOWER_RIGHT
@@ -39,7 +41,7 @@ public final class Jui {
     }
 
 
-    public static void changeColor(int r, int g, int b) {
+    public void changeColor(int r, int g, int b) {
         if (0 <= r && r <= 255 && 0 <= g && g <= 255 && 0 <= b && b <= 255) {
             System.out.printf("\033[38;2;%d;%d;%dm", r, g, b);
             System.out.flush();
@@ -47,7 +49,7 @@ public final class Jui {
     }
 
 
-    public static void changeColor(Colors color) {
+    public void changeColor(Colors color) {
         switch (color) {
             case DEFAULT:
                 System.out.printf("\033[0m");
@@ -178,8 +180,12 @@ public final class Jui {
         return ROWS;
     }
 
-    public static int getInput() throws IOException {
+    public int getInput() throws IOException {
         return System.in.read();
+    }
+
+    public String getString() throws IOException {
+        return "";
     }
 
     public void sleep(long milliseconds) throws InterruptedException {
@@ -263,7 +269,17 @@ public final class Jui {
         changeBackgroundColor(Colors.DEFAULT);
     }
 
-    public static void customPrint(String string, int row, int col){
+    public void drawRectangle(int height, int width, Colors color, int x, int y) throws IOException {
+        changeBackgroundColor(color);
+        for(int i = 0; i < height; i++) {
+            changeCursorPosition(y + i, x);
+            for (int j = 0; j < width; j++)
+                System.out.print(" ");
+        }
+        changeBackgroundColor(Colors.DEFAULT);
+    }
+
+    public void customPrint(String string, int row, int col){
         saveCursor();
         changeCursorPosition(row, col);
         System.out.print(string);
@@ -271,82 +287,82 @@ public final class Jui {
     }
 
 
-    public static void changeCursorPosition(int row, int col) {
+    public void changeCursorPosition(int row, int col) {
         System.out.printf("\033[%d;%dH", row, col);
         System.out.flush();
     }
 
 
-    public static void saveCursor(){
+    public void saveCursor(){
         System.out.println("\0337");
         System.out.flush();
     }
 
 
-    public static void restoreCursor(){
+    public void restoreCursor(){
         System.out.println("\0338");
         System.out.flush();
     }
 
-    public static void cursorUp(){
+    public void cursorUp(){
         System.out.print("\033[1A");
         System.out.flush();
     }
 
-    public static void cursorUp(int n){
+    public void cursorUp(int n){
         System.out.printf("\033[%dA", n);
         System.out.flush();
     }
 
-    public static void cursorDown(){
+    public void cursorDown(){
         System.out.print("\033[1B");
         System.out.flush();
     }
 
-    public static void cursorDown(int n){
+    public void cursorDown(int n){
         System.out.printf("\033[%dB", n);
         System.out.flush();
     }
 
-    public static void cursorForward(){
+    public void cursorForward(){
         System.out.print("\033[1C");
         System.out.flush();
     }
 
-    public static void cursorForward(int n){
+    public void cursorForward(int n){
         System.out.printf("\033[%dC", n);
         System.out.flush();
     }
 
-    public static void cursorBackward(){
+    public void cursorBackward(){
         System.out.print("\033[1D");
         System.out.flush();
     }
 
-    public static void cursorBackward(int n){
+    public void cursorBackward(int n){
         System.out.printf("\033[%dD", n);
         System.out.flush();
     }
 
 
-    public static void playSound() {
+    public void playSound() {
         System.out.println("\07");
         System.out.flush();
     }
 
 
-    public static void clearScreen() {
+    public void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    public static void clearLine() {
+    public void clearLine() {
         System.out.print("\033[K");
         System.out.flush();
     }
 
 
-    public static void changeBackgroundColor(Colors color){
+    public void changeBackgroundColor(Colors color){
         switch (color) {
             case DEFAULT:
                 System.out.printf("\033[0m");
@@ -388,7 +404,7 @@ public final class Jui {
 
     }
 
-    public static void bold(){
+    public void bold(){
         if (isBold) System.out.print("\033[0m");
         else System.out.print("\033[1m");
         isBold = !isBold;
@@ -396,7 +412,7 @@ public final class Jui {
     }
 
 
-    public static void italic(){
+    public void italic(){
         if (isItalic) System.out.print("\033[0m");
         else System.out.print("\033[3m");
         isItalic = !isItalic;
@@ -404,7 +420,7 @@ public final class Jui {
     }
 
 
-    public static void underline(){
+    public void underline(){
         if (isUnderlined) System.out.print("\033[0m");
         else System.out.print("\033[4m");
         isUnderlined = !isUnderlined;
@@ -412,7 +428,7 @@ public final class Jui {
     }
 
 
-    public static void strikethrough(){
+    public void strikethrough(){
         if (isStrikethrough) System.out.print("\033[0m");
         else System.out.print("\033[9m");
         isStrikethrough = !isStrikethrough;

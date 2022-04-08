@@ -7,5 +7,12 @@ public enum Actions {
     Sell,
     Fly,
     Free,
-    Invest
+    Invest,
+    Next;
+
+    @Override
+    public String toString(){
+        if (name().equals("RollDice")) return "Roll Dice";
+        else return name();
+    }
 }
