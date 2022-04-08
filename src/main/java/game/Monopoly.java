@@ -37,7 +37,7 @@ public class Monopoly {
                     else jui.playSound();
                 }
                 else if (option == 1){
-                    if (players.length > 0){
+                    if (players.length > 1){
                         game = new Game(players);
                         startGame();
                     } else {
@@ -287,20 +287,6 @@ public class Monopoly {
                 " | |\\/| | |  | | . ` | |  | |  ___/| |  | | |   \\   /  \n" +
                 " | |  | | |__| | |\\  | |__| | |    | |__| | |____| |   \n" +
                 " |_|  |_|\\____/|_| \\_|\\____/|_|     \\____/|______|_|   ";
-//        String spaces = "          ";
-
-//        jui.changeBackgroundColor(Jui.Colors.RED);
-//
-//        jui.changeCursorPosition((jui.getRows() / 2) - 1, (jui.getColumns() - spaces.length()) / 2);
-//        System.out.print(spaces);
-//
-//        jui.changeCursorPosition((jui.getRows() / 2), (jui.getColumns() - monopoly.length()) / 2);
-//        System.out.print(monopoly);
-//
-//        jui.changeCursorPosition((jui.getRows() / 2) + 1, (jui.getColumns() - spaces.length()) / 2);
-//        System.out.print(spaces);
-//
-//        jui.changeBackgroundColor(Jui.Colors.DEFAULT);
 
         jui.changeColor(Jui.Colors.BOLD_RED);
         String[] lines = title.split("\n");
