@@ -204,6 +204,7 @@ public class Player {
         if (dice == 6 && this.diceRoll == 6){
             isInJail = true;
             currentPosition = 13;
+            actionsDone = false;
         }
         this.diceRoll = dice;
     }
