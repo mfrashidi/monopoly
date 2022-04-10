@@ -39,14 +39,14 @@ public class Game {
         lands[11]=new EmptyLands(null,Property.Empty,100, Jui.Colors.GREEN, "Empty Land 4", "🔨");
         lands[12]= new Lands(banker,Property.Jail,null, Jui.Colors.GRAY, "Jail", "🛑");
         lands[13]=new EmptyLands(null,Property.Empty,100, Jui.Colors.BLUE, "Empty Land 5", "🔨");
-        lands[14]=new LandsWithRent(null,Property.Cinema,200, Jui.Colors.GREEN, "Cinema 2", "🎦");
+        lands[14]=new LandsWithRent(null,Property.Cinema,200, Jui.Colors.GREEN, "Cinema 3", "🎦");
         lands[15]= new Lands(banker,Property.Road,null, Jui.Colors.GRAY, "Road", "🚧");
         lands[16]= new Lands(banker,Property.Tax,null, Jui.Colors.GRAY, "Tax Land", "💸");
         lands[17]=new EmptyLands(null,Property.Empty,100, Jui.Colors.RED, "Empty Land 6", "🔨");
         lands[18]=new EmptyLands(null,Property.Empty,100, Jui.Colors.YELLOW, "Empty Land 7", "🔨");
         lands[19]=new LandsWithRent(banker,Property.Airport,null, Jui.Colors.GRAY, "Airport 3", "✈️");
         lands[20]= new Lands(banker,Property.Bank,null, Jui.Colors.GRAY, "Bank", "🏦");
-        lands[21]=new LandsWithRent(null,Property.Cinema,200, Jui.Colors.YELLOW, "Cinema 3", "🎦");
+        lands[21]=new LandsWithRent(null,Property.Cinema,200, Jui.Colors.YELLOW, "Cinema 4", "🎦");
         lands[22]=new EmptyLands(null,Property.Empty,100, Jui.Colors.BLUE, "Empty Land 8", "🔨");
         lands[23]= new Lands(banker,Property.RandomCard,null, Jui.Colors.GRAY, "Wonderland", "❓");
     }
