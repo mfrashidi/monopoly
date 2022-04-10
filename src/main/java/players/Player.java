@@ -44,14 +44,6 @@ public class Player {
         return currentPosition;
     }
 
-    public boolean isTheirTurn(){
-        return isTheirTurn;
-    }
-
-    public void setTheirTurn(boolean theirTurn) {
-        isTheirTurn = theirTurn;
-    }
-
     public void setCurrentPosition(int currentPosition) {
         this.currentPosition = currentPosition;
     }
@@ -90,35 +82,6 @@ public class Player {
 
     public int getBalance() {
         return balance;
-    }
-
-    //build structures on emptyLands
-    public boolean build(EmptyLands land){
-        if (land.structures.get(0).equals(Structures.Hotels)){
-            return false;
-        }
-        for(int i=0; i<ownLands.size();i++){
-            EmptyLands temp = (EmptyLands) ownLands.get(i);
-            if(temp.structures.size()!=land.structures.size()){
-                return false;
-            }
-        }
-        if(land.structures.size()<4 && !(land.structures.get(0).equals(Structures.Hotels))){
-            if(!(this.pay(150))){
-                return false;
-            }
-            land.setRent(land.getRent()+100);
-            land.structures.add(Structures.Buildings);
-        }
-        if(land.structures.size()==4){
-            if(!(this.pay(100))){
-                return false;
-            }
-            land.setRent(land.getRent()+150);
-            land.structures.clear();
-            land.structures.add(Structures.Hotels);
-        }
-        return true;
     }
 
     //move forward
