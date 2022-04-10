@@ -413,7 +413,11 @@ public class Monopoly {
                         actions.add(Actions.Next);
                     }
                     else if (property.equals(Property.Tax)) {
-                        currentPlayer.pay((int) (currentPlayer.getBalance() * 0.1));
+                        if (currentPlayer.getTaxTicket() > 0){
+                            currentPlayer.setTaxTicket(currentPlayer.getTaxTicket() - 1);
+                            message = "You used one of your tickets. You have " + currentPlayer.getTaxTicket() + " tickets now!";
+                            msgColor = Jui.Colors.BOLD_GREEN;
+                        } else currentPlayer.pay((int) (currentPlayer.getBalance() * 0.1));
                         currentPlayer.setActionsDone(true);
                     } else if (property.equals(Property.Road)) {
                         if (currentPlayer.getBalance() >= 100){
@@ -571,6 +575,7 @@ public class Monopoly {
                             if (currentPlayer.getDaysInJail() > 0) message = "Another day at the jail. Another 10 bucks :(";
                             else message = "Welcome to the jail, my amigo. May you'll learn a few things.";
                             msgColor = Jui.Colors.BOLD_YELLOW;
+                            currentPlayer.setInJail(true);
                         }
                     }
                     break;
