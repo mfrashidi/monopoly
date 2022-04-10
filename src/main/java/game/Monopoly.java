@@ -401,6 +401,7 @@ public class Monopoly {
             if (currentPlayer.getDiceRoll() == -1) actions.add(Actions.RollDice);
             else {
                 if (currentPlayer.isActionsDone()){
+                    if (currentPlayer.getOwnLands().size() > 0) actions.add(Actions.Sell);
                     actions.add(Actions.Next);
                 } else {
                     if (currentPlayer.getOwnLands().size() > 0) actions.add(Actions.Sell);
@@ -872,7 +873,8 @@ public class Monopoly {
                 }
             }
         }
-        while (true) {
+        while (sold < amount) {
+            amount = amount - currentPlayer.getBalance();
             List<String> acceptedAns = new ArrayList<>();
             String propertiesWithValues = "";
             if (properties.size() > 0) {
@@ -881,20 +883,14 @@ public class Monopoly {
                     propertiesWithValues += entry.getKey() + "=$" + entry.getValue() + ", ";
                     acceptedAns.add(entry.getKey());
                 }
-                propertiesWithValues = propertiesWithValues.substring(0, propertiesWithValues.length() - 2);
-                if (sold >= amount) {
-                    acceptedAns.add("Exit");
-                    propertiesWithValues += ", Exit]";
-                }
+                propertiesWithValues = propertiesWithValues.substring(0, propertiesWithValues.length() - 2) + "]";
             }
-            if (sold < amount) {
-                message = "You are at a bad position man. You need $" + amount + " to save yourself. If you can't afford it just type 'Broken' and say goodbye!\n" + propertiesWithValues;
-                acceptedAns.add("Broken");
-            } else {
-                message = "You afford the money. You can go now\n" + propertiesWithValues;
-            }
+
+            message = "You are at a bad position man. You need $" + amount + " to save yourself. If you can't afford it just type 'Broken' and say goodbye!";
             msgColor = Jui.Colors.BOLD_YELLOW;
-            ans = askQuestion("Which property do you wanna sell? (Just type the name of it)");
+            acceptedAns.add("Broken");
+
+            ans = askQuestion("Which property do you wanna sell? " + propertiesWithValues);
             if (acceptedAns.contains(ans)){
                 if (ans.equals("Exit")){
                     message = "You saved yourself but, at what cost?";
@@ -911,7 +907,8 @@ public class Monopoly {
                     break;
                 } else {
                     int value = properties.get(ans);
-                    currentPlayer.getPaid(value);
+                    currentPlayer.pay(value);
+                    sold += value;
                     Lands land = null;
                     for (Lands gameLand: game.getLands()) {
                         if (gameLand.getName().equals(ans)) {
@@ -921,8 +918,8 @@ public class Monopoly {
                     }
                     assert land != null;
                     currentPlayer.sell(land);
-                    message = "You sold " + ans + " with the value of " + value;
-                    msgColor = Jui.Colors.BOLD_YELLOW;
+                    message = "You sold " + ans + " with the value of $" + value;
+                    msgColor = Jui.Colors.BOLD_RED;
                 }
             }
         }
